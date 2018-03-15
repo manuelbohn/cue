@@ -581,6 +581,8 @@ var experiment = {
 }, 5000);
   },
     
+    
+    
 // moving on within a trial
   next: function() {
   // when training is over show sinished training slide 
