@@ -324,7 +324,7 @@ var experiment = {
       
     // data collected  
       data = {
-        condition: "informativeness",
+        experiment: "cue_strength_within",
         trial: trial[0],
         cond: cond[0],
         agent: agents[0],
