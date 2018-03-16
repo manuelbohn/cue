@@ -390,7 +390,7 @@ var experiment = {
     showSlide("choice"); 
     
     $("#text2").text("")  
-    setTimeout(function() {$("#text2").text("Click on the toy")}, 5000);
+    setTimeout(function() {$("#text2").text("Click on the toy")}, 4000);
     
     // show agent
     
@@ -446,10 +446,10 @@ var experiment = {
       
                     choiceRightFruit("images/"+rightFruit[0]+".png"); choiceRightFruit2("images/empty.png");
                     
-                    $("#choiceFruit_l").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
-                    $("#choiceFruit_l").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
-                    $("#choiceFruit_l2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
-                    $("#choiceFruit_l2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+//                    $("#choiceFruit_l").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_l").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+//                    $("#choiceFruit_l2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_l2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
                     
                 } else { 
                     
@@ -462,10 +462,10 @@ var experiment = {
       
                     choiceRightFruit("images/"+experiment.fruitPosition[0]+".png"); choiceRightFruit2("images/"+experiment.fruitPosition.filter(function(x) { return x !== experiment.fruitPosition[0]; })+".png");
                     
-                    $("#choiceFruit_r").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
-                    $("#choiceFruit_r").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
-                    $("#choiceFruit_r2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
-                    $("#choiceFruit_r2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+//                    $("#choiceFruit_r").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_r").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+//                    $("#choiceFruit_r2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_r2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
                 };
             } else if (experiment.cond[0] == "pointLabel"){
                 if (experiment.inf[0] == "left") {
@@ -480,10 +480,10 @@ var experiment = {
       
                     choiceRightFruit("images/"+rightFruit[0]+".png"); choiceRightFruit2("images/empty.png");
                     
-                    $("#choiceFruit_l").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
-                    $("#choiceFruit_l").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
-                    $("#choiceFruit_l2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
-                    $("#choiceFruit_l2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+//                    $("#choiceFruit_l").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_l").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+//                    $("#choiceFruit_l2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_l2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
                     
                 } else { 
                     
@@ -495,10 +495,10 @@ var experiment = {
       
                     choiceRightFruit("images/"+experiment.fruitPosition[0]+".png"); choiceRightFruit2("images/"+experiment.fruitPosition.filter(function(x) { return x !== experiment.fruitPosition[0]; })+".png");
                     
-                    $("#choiceFruit_r").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
-                    $("#choiceFruit_r").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
-                    $("#choiceFruit_r2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
-                    $("#choiceFruit_r2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+//                    $("#choiceFruit_r").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_r").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+//                    $("#choiceFruit_r2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_r2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
                 }; 
             
             } else if (experiment.cond[0] == "point"){
@@ -511,11 +511,11 @@ var experiment = {
       
                      choiceRightFruit("images/"+rightFruit[0]+".png"); choiceRightFruit2("images/empty.png");
                     
-                    $("#choiceFruit_l").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
-                    $("#choiceFruit_l").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
-                    $("#choiceFruit_l2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
-                    $("#choiceFruit_l2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
-                    
+//                    $("#choiceFruit_l").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_l").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+//                    $("#choiceFruit_l2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_l2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+//                    
                 } else { 
                     
                     showAgent(agents[0],"point_r")
@@ -524,10 +524,10 @@ var experiment = {
       
                     choiceRightFruit("images/"+experiment.fruitPosition[0]+".png"); choiceRightFruit2("images/"+experiment.fruitPosition.filter(function(x) { return x !== experiment.fruitPosition[0]; })+".png");
                     
-                    $("#choiceFruit_r").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
-                    $("#choiceFruit_r").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
-                    $("#choiceFruit_r2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
-                    $("#choiceFruit_r2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+//                    $("#choiceFruit_r").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_r").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+//                    $("#choiceFruit_r2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_r2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
                 };
                
       }  else {
@@ -539,10 +539,10 @@ var experiment = {
       
                     choiceRightFruit("images/"+rightFruit[0]+".png"); choiceRightFruit2("images/empty.png");
                     
-                    $("#choiceFruit_l").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
-                    $("#choiceFruit_l").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
-                    $("#choiceFruit_l2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
-                    $("#choiceFruit_l2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+//                    $("#choiceFruit_l").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_l").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+//                    $("#choiceFruit_l2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_l2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
                     
                 } else { 
                     
@@ -552,35 +552,49 @@ var experiment = {
       
                     choiceRightFruit("images/"+experiment.fruitPosition[0]+".png"); choiceRightFruit2("images/"+experiment.fruitPosition.filter(function(x) { return x !== experiment.fruitPosition[0]; })+".png");
                     
-                    $("#choiceFruit_r").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
-                    $("#choiceFruit_r").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
-                    $("#choiceFruit_r2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
-                    $("#choiceFruit_r2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+//                    $("#choiceFruit_r").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_r").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+//                    $("#choiceFruit_r2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_r2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
                 };
 
              };   
             };
       
-    // choice can be made by clicking the objects after - possible after 2s
-    setTimeout(function() {
-        if (experiment.trial[0] == "train1" || experiment.trial[0] == "train2") {
-            $(".fruit_l").bind("click", experiment.eat);
-            $(".fruit_l2").bind("click", experiment.eat);
+    // choice can be made by clicking the objects after 
+
+if(experiment.cond[0] == "pointLabel" ||
+   experiment.cond[0] == "lookLabel" ||
+   experiment.cond[0] == "label") {
+        setTimeout(function() {
+            if (experiment.trial[0] == "train1" || experiment.trial[0] == "train2") {
+                $(".fruit_l").bind("click", experiment.eat);
+                $(".fruit_l2").bind("click", experiment.eat);
             
-            $(".fruit_r").bind("click", experiment.eat);
-            $(".fruit_r2").bind("click", experiment.eat);
-        } else { 
-            if (experiment.inf[0] == "left") {
+                $(".fruit_r").bind("click", experiment.eat);
+                $(".fruit_r2").bind("click", experiment.eat);
+            } else { 
+                if (experiment.inf[0] == "left") {
+                    $(".fruit_l").bind("click", experiment.eat);
+                    $(".fruit_l2").bind("click", experiment.eat);
+                } else {  
+                    $(".fruit_r").bind("click", experiment.eat);
+                    $(".fruit_r2").bind("click", experiment.eat);
+                };
+            };
+        }, 4000)   
+    } else {
+        if (experiment.inf[0] == "left") {
                 $(".fruit_l").bind("click", experiment.eat);
                 $(".fruit_l2").bind("click", experiment.eat);
             } else {  
                 $(".fruit_r").bind("click", experiment.eat);
                 $(".fruit_r2").bind("click", experiment.eat);
             };
-        };
-}, 5000);
-  },
-    
+    }
+  
+},
+
     
     
 // moving on within a trial
