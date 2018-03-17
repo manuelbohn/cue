@@ -16,12 +16,11 @@ setwd("~/Work/CueStrength/git/stats/")
 
 # select all files from individual workers
 files <- dir("~/Work/CueStrength/cosub_within_s/anonymized-results/")
-files <- dir("~/Work/CueStrength/cosub_within_s/sandbox-results/")
 
 #combine files into one dataframe
 raw <- data.frame()
 for (f in files) {
-  jf <- paste("~/Work/CueStrength/cosub_within_s/sandbox-results/",f,sep="")
+  jf <- paste("~/Work/CueStrength/cosub_within_s/anonymized-results/",f,sep="")
   jd <- fromJSON(paste(readLines(jf), collapse=""))
   id <- data.frame(workerid = jd$WorkerId, 
                    data = jd$answers$data$data
@@ -42,7 +41,7 @@ inf.data$trial[inf.data$trial=="train2"]="train"
 str(inf.data)
 head(inf.data)
 # write csv file for further analysis
-write.csv(inf.data, file="inf.data.csv")
+write.csv(inf.data, file="cue.data.csv")
 
 ################################################################################################################
 
