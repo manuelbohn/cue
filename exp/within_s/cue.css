@@ -140,6 +140,42 @@ nextButton[disabled] {
     width: 180px;
 }
 
+.barrier_l {
+    position: absolute;
+    bottom: 340px;
+    left: 90px;
+    width: 330px;
+    z-index: -1
+}
+
+
+.barrier_r {
+    position: absolute;
+    bottom: 340px;
+    left: 610px;
+    width: 330px;
+    z-index: -1
+}
+
+
+.barrier_lc {
+    position: absolute;
+    bottom: 340px;
+    left: 90px;
+    width: 330px;
+    z-index: -1
+}
+
+
+.barrier_rc {
+    position: absolute;
+    bottom: 340px;
+    left: 610px;
+    width: 330px;
+    z-index: -1
+}
+
+
 .look_agent_r {
     position: absolute;
     bottom: 520px;
@@ -292,7 +328,7 @@ nextButton[disabled] {
     bottom: 430px;
     left: 100px;
     width: 840px;
-    z-index: -1
+    z-index: -2
 }
 
 

@@ -82,6 +82,39 @@ function showEat(id) {
 	$("#"+id+"_eat").show();
 };
 
+function showBarrierRight () {
+	$(".barrier_l").hide();
+	$("#barrier_r").show();
+};
+
+function showBarrierLeft () {
+	$(".barrier_r").hide();
+	$("#barrier_l").show();
+};
+
+function hideBarrier () {
+	$(".barrier_r").hide();
+	$(".barrier_l").hide();
+};
+
+
+function hideBarrierChoice () {
+	$(".barrier_rc").hide();
+	$(".barrier_lc").hide();
+};
+
+
+function showBarrierRightChoice () {
+	$(".barrier_lc").hide();
+	$("#barrier_rc").show();
+};
+
+function showBarrierLeftChoice () {
+	$(".barrier_rc").hide();
+	$("#barrier_lc").show();
+};
+
+
 function choiceLeftFruit(a) {
         document.getElementById("choiceFruit_l").src=a;
     };
@@ -240,6 +273,10 @@ var trainInf = ["left","right"];
 var testInf = shuffle(["left","right","left","right","left","right","left","right"]);
 var inf = trainInf.concat(testInf)
 
+var trainControl = ["no","no"];
+var testControl = shuffle(["yes","no","yes","no","yes","no","yes","no"]);
+var control = trainControl.concat(testControl)
+
 // beginning of actual experiment
 
 // Show the instructions slide .
@@ -249,6 +286,7 @@ showSlide("instructions");
 var experiment = {
   // Parameters for this sequence.
   trial: trial,
+  control: control,
   cond: cond,
   agents: agents,
   agentOrient: agentOrient,
@@ -327,6 +365,7 @@ var experiment = {
         experiment: "cue_strength_within",
         trial: trial[0],
         cond: cond[0],
+        control: control[0],
         agent: agents[0],
         leftFruit: leftFruit[0],
         rightFruit: rightFruit[0],
@@ -363,7 +402,8 @@ var experiment = {
             showRightFruit();
      
      
-    experiment.trial.shift();   
+    experiment.trial.shift();
+    experiment.control.shift();
     experiment.agentOrient.shift();   
     experiment.agents.shift();
     experiment.inf.shift();
@@ -404,6 +444,19 @@ var experiment = {
     } else { 
    $("#text3").text("Can you give him the toy he wants?")
      }
+      
+    // show control barrier
+      
+    if (experiment.control[0] == "no"){
+        hideBarrierChoice();
+    } else {
+        if (experiment.inf[0] == "left"){
+            showBarrierRightChoice();
+        } else {
+            showBarrierLeftChoice();
+        };
+    };
+      
     // specify what is shown on the tables depending on training and test condition
     if (experiment.trial[0] == "train1"){
         showAgent(agents[0],"choice");
@@ -582,7 +635,7 @@ if(experiment.cond[0] == "pointLabel" ||
                     $(".fruit_r2").bind("click", experiment.eat);
                 };
             };
-        }, 4000)   
+        }, 000)   
     } else {
         if (experiment.inf[0] == "left") {
                 $(".fruit_l").bind("click", experiment.eat);
@@ -620,14 +673,25 @@ if(experiment.cond[0] == "pointLabel" ||
     showSlide("stage");  
      
     // show agent
-    showAgent(agents[0],experiment.agentOrient[0][0]);
-    
+    showAgent(agents[0],experiment.agentOrient[0][0]);  
+    // move agent to back  
     setTimeout(function() {
         $("#"+agents[0]+"_straight").animate({width: "180px", left: "430px", bottom:"520px", queue: false, duration: 500})
         }, 2000)
     ;
       
- 
+    // show control barrier 
+    if (experiment.control[0] == "no"){
+        hideBarrier();
+    } else {
+        if (experiment.inf[0] == "left"){
+            showBarrierRight();
+        } else {
+            showBarrierLeft();
+        };
+    };
+      
+      
     // play hello sound and write name of agent
    if (experiment.agentOrient[0][0] == "straight") { 
         pause("next",2600); 
