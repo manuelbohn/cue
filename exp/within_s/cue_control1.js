@@ -445,15 +445,15 @@ var experiment = {
     // show agent
     
     // show agent name
-    if (agents[0] == "Mouse" ||
-        agents[0] == "Tiger" ||
-        agents[0] == "Cat" ||
-        agents[0] == "Bunny" ||
-        agents[0] == "Sheep"){  
-    $("#text3").text("Can you give her the toy she wants?") 
-    } else { 
-   $("#text3").text("Can you give him the toy he wants?")
-     }
+//    if (agents[0] == "Mouse" ||
+//        agents[0] == "Tiger" ||
+//        agents[0] == "Cat" ||
+//        agents[0] == "Bunny" ||
+//        agents[0] == "Sheep"){  
+//    $("#text3").text("Can you give her the toy she wants?") 
+//    } else { 
+//   $("#text3").text("Can you give him the toy he wants?")
+//     }
       
     // show control barrier
      
