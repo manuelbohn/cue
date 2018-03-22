@@ -280,7 +280,7 @@ var agentOrient = [
 
 // randomizing location of target object (i.e. single object)
 var trainInf = ["left","right"];
-var testInf = shuffle(["left","right","left","right","left","right","left","right"]);
+var testInf = shuffle(["left","right","left","right","left","right","left","right","left","right"]);
 var inf = trainInf.concat(testInf)
 
 var trainControl = ["no","no"];
