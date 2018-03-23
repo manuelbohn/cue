@@ -525,7 +525,7 @@ var experiment = {
                    $("#choiceFruit_r2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
                    $("#choiceFruit_r2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
                     
-                    },1000);
+                    },1500);
                        
                    } else { choiceRightFruit("images/"+rightFruit[0]+".png"); choiceRightFruit2("images/empty.png");
                           };
@@ -549,7 +549,7 @@ var experiment = {
                     $("#choiceFruit_l").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
                    $("#choiceFruit_l2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
                    $("#choiceFruit_l2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
-                    },1000);
+                    },1500);
                         
                    
                        
