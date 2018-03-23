@@ -1,0 +1,212 @@
+---
+title: "CueStrength controls (within subject)"
+author: "Manuel Bohn"
+date: "23 3 2018"
+output: html_document
+---
+
+```{r setup}
+###
+library(tidyverse)
+library(knitr)
+library(langcog)
+library(ggthemes)
+
+
+## importing data
+d <- read_csv(file="cue_control_1.data.csv") %>%
+  mutate(trial_type = ifelse(trial == "train", "train", "test"))
+
+```
+
+Sanity checks.
+```{r training performance}
+## performance in training and test
+d %>%
+  group_by(trial_type) %>%
+  summarise(n = length(unique(id)), 
+            correct = mean(correct)) %>%
+  knitr::kable(digits = 3)
+
+```
+
+Plot with all data for all conditions. Interestingly, the type of communicative act does not seem to matter. I wonder if the same would be true for children.
+
+This is all within subject, so there might be carry over effects. Next I'm only looking at trial 1.
+```{r plot overall}
+
+ms <- d %>%
+  filter(trial_type == "test") %>%
+  group_by(control, id) %>%
+  summarise(correct = mean(correct)) %>%
+  multi_boot_standard(col = "correct")
+
+ggplot(ms, 
+       aes(x = control, y = mean, fill = control)) +
+  geom_bar(stat="identity") + 
+  geom_linerange(aes(ymin = ci_lower, ymax = ci_upper)) + 
+  geom_hline(yintercept = 0.5, lty=2)+
+  labs(x="",y="Proportion Expected Choice")+
+  theme_few(base_size = 12) + 
+  ylim(0,1)+
+  theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
+  scale_fill_solarized(name="Condition",
+                     breaks=c("abs", "bar","no"),
+                     labels=c("Control - Barrier", "Control - Later","Test"))
+```
+
+First, check how much data for trial 1 we have per condition (order was completely randomized). Roughly equally distributed.
+```{r trial 1 data}
+d %>%
+  filter(trial == "1") %>%
+  group_by(control) %>%
+  summarise(n = length(unique(id)), 
+            correct = mean(correct)) %>%
+  knitr::kable(digits = 2)
+```
+
+Plot for trial 1. Similar to overall pattern, maybe a little weaker for look alone. Not sure if following up between subject would be worth it? 
+```{r plot trial 1}
+ms <- d %>%
+  filter(trial == "1") %>%
+  group_by(control, id) %>%
+  summarise(correct = mean(correct)) %>%
+  multi_boot_standard(col = "correct")
+
+ggplot(ms, 
+       aes(x = control, y = mean, fill = control)) +
+  geom_bar(stat="identity") + 
+  geom_linerange(aes(ymin = ci_lower, ymax = ci_upper)) + 
+  geom_hline(yintercept = 0.5, lty=2)+
+  labs(x="",y="Proportion Expected Choice")+
+  theme_few(base_size = 12) + 
+  ylim(0,1)+
+  theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
+  scale_fill_solarized(name="Condition",
+                     breaks=c("abs", "bar","no"),
+                     labels=c("Control - Barrier", "Control - Later","Test"))
+```
+
+Effect of target object location on table. Inner = closer to the agent, outer = further away. 
+General bias to pick the inner object, considerably stronger for point. Probably because the poitning finger is closer to the inner object.  
+```{r inner vs outer location}
+## performance in training and test
+ms <- d %>%
+  filter(trial_type == "test") %>%
+  group_by(targetOnTable,control, id) %>%
+  summarise(correct = mean(correct)) %>%
+  multi_boot_standard(col = "correct")
+
+ggplot(ms, 
+       aes(x = control, y = mean, fill = control,frame = targetOnTable)) +
+  geom_bar(stat="identity") + 
+  geom_linerange(aes(ymin = ci_lower, ymax = ci_upper)) + 
+  geom_hline(yintercept = 0.5, lty=2)+
+  facet_wrap(~ targetOnTable) +
+  labs(x="",y="Proportion Expected Choice")+
+  theme_few(base_size = 12) +
+  ylim(0,1)+
+  theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
+  scale_fill_solarized(name="Condition",
+                     breaks=c("abs", "bar","no"),
+                     labels=c("Control - Barrier", "Control - Later","Test"))
+
+```
+
+Condition by trial overall. Looks pretty random.
+```{r plot trials}
+ms <- d %>%
+  filter(trial_type == "test") %>%
+  group_by(control, trial, id) %>%
+  summarise(correct = mean(correct)) %>%
+  multi_boot_standard(col = "correct")
+
+ggplot(ms, 
+       aes(x = trial, y = mean, col = control)) +
+  geom_line(aes(group= control)) + 
+  geom_pointrange(aes(ymin = ci_lower, ymax = ci_upper), 
+                  position = position_dodge(width = .1)) + 
+  geom_hline(yintercept = 0.5, lty=2)+
+  theme_few() + 
+  scale_colour_solarized()
+```
+
+Conditions by agents.
+```{r trials per condition and agent}
+# d %>%
+#   filter(trial_type == "test") %>%
+#   group_by(agent,condition) %>%
+#   summarise(n = length(agent), 
+#             correct = mean(correct)) %>%
+#   knitr::kable(digits = 2)
+```
+
+Agent effect. Cat seems a little strange in point label, but also very few data.
+```{r plot agents}
+ms <- d %>%
+  filter(trial_type == "test") %>%
+  group_by(control, agent, id) %>%
+  summarise(correct = mean(correct)) %>%
+  multi_boot_standard(col = "correct")
+
+ggplot(ms, 
+       aes(x = agent, y = mean, col = control)) +
+  geom_line(aes(group= control)) + 
+  geom_pointrange(aes(ymin = ci_lower, ymax = ci_upper), 
+                  position = position_dodge(width = .1)) + 
+  geom_hline(yintercept = 0.5, lty=2)+
+  theme_few() + 
+  scale_colour_solarized()
+```
+
+Tests against chance per condition. We only have 2 trials per subject per condition, that's why t-tests aren't the best option. I used wilcoxon tests instead. We would get the same info out of the model but this might be helpful for a quick overview. There is no Bayesian version of a wilcoxon test, yet.
+```{r tests against chance}
+## Wilcoxon tests against chance
+library(exactRankTests)
+
+d %>%
+  filter(trial_type == "test") %>%
+  group_by(control, id) %>%
+  summarise(correct = mean(correct)) %>%
+  summarise(correct = list(correct)) %>%
+  group_by(control) %>%
+  mutate(mean= mean(unlist(correct)),
+         stat = wilcox.exact(unlist(correct), mu = 0.5)$statistic,
+         p = wilcox.exact(unlist(correct), mu = 0.5)$p.value) %>%
+  select(control,mean,stat,p) %>%
+  knitr::kable(digits = 3)
+ 
+```
+
+Brm Model. It's the first time I run a Bayesian model, so I'm not sure how to properly tweak the settings. Whatever I do, I get the following error message:
+
+"The model has not converged (some Rhats are > 1.1). Do not analyse the results! 
+We recommend running more iterations and/or setting stronger priors"
+
+I did run more iterations and also adjusted the delta level. There are some changes in the fixed effects depending on the settings.
+
+Model output with 10 times the iterations and higher delta is pasted below.
+
+In any case, the output reflects what we see in the graph: No difference between conditions (here look is the reference level).
+
+```{r model}
+## model
+library(brms)
+
+data_inf <- d %>%
+  filter(trial_type == "test") %>%
+  mutate(control  = as.factor(control))
+  
+data_inf$control =  relevel(data_inf$control,"no")
+
+# registered  model
+bm <- brm(correct ~ control +
+              (control |id) + (control |agent), 
+          data = data_inf, family = bernoulli(),
+          control = list(adapt_delta = 0.90),
+          iter = 2000)
+
+summary(bm)
+
+```
+
