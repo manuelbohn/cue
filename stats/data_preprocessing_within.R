@@ -16,14 +16,16 @@ setwd("~/Work/CueStrength/git/stats/")
 
 # select all files from individual workers
 #files <- dir("~/Work/CueStrength/cosub_within_s/anonymized-results/")
-files <- dir("~/Work/CueStrength/cosub_within_control/anonymized-results/")
+#files <- dir("~/Work/CueStrength/cosub_within_control/anonymized-results/")
+files <- dir("~/Work/CueStrength/cosub_within_control2/anonymized-results/")
 #files <- dir("~/Work/CueStrength/cosub_within_control/sandbox-results/")
 
 #combine files into one dataframe
 raw <- data.frame()
 for (f in files) {
 #  jf <- paste("~/Work/CueStrength/cosub_within_s/anonymized-results/",f,sep="")
-  jf <- paste("~/Work/CueStrength/cosub_within_control/anonymized-results/",f,sep="")
+#  jf <- paste("~/Work/CueStrength/cosub_within_control/anonymized-results/",f,sep="")
+  jf <- paste("~/Work/CueStrength/cosub_within_control2/anonymized-results/",f,sep="")
 #  jf <- paste("~/Work/CueStrength/cosub_within_control/sandbox-results/",f,sep="")
   jd <- fromJSON(paste(readLines(jf), collapse=""))
   id <- data.frame(workerid = jd$WorkerId, 
@@ -41,12 +43,13 @@ inf.data = inf.data[order(id)]
 inf.data $id = paste(inf.data $id, inf.data $experiment,sep="_")
 inf.data$trial[inf.data$trial=="train1"]="train"
 inf.data$trial[inf.data$trial=="train2"]="train"
+
 # check resulting datafile
 str(inf.data)
 head(inf.data)
 # write csv file for further analysis
 #write.csv(inf.data, file="cue.data.csv")
-write.csv(inf.data, file="cue_control_1.data.csv")
+write.csv(inf.data, file="cue_control_2.data.csv")
 
 ################################################################################################################
 

@@ -14,30 +14,40 @@ library(ggthemes)
 
 
 ## importing data
-d <- read_csv(file="cue_control_1.data.csv") %>%
+d <- bind_rows(read_csv(file="cue_control_1.data.csv"),
+               read_csv(file="cue_control_2.data.csv")) %>%
   mutate(trial_type = ifelse(trial == "train", "train", "test"))
 
-```
-
-Sanity checks.
-```{r training performance}
-## performance in training and test
-d %>%
-  group_by(trial_type) %>%
-  summarise(n = length(unique(id)), 
-            correct = mean(correct)) %>%
-  knitr::kable(digits = 3)
 
 ```
+In all of the following experiments, I only ran the "look + label" condition. This was the one we ran in the first place (for MCC) and all the previous studies suggested that it does not make a difference what the utterance is composed of.
 
-Plot with all data for all conditions. Interestingly, the type of communicative act does not seem to matter. I wonder if the same would be true for children.
+Both experiments are within-subject with 40 participants each, with three trials per condition, which gives us the same 120 data points per condition as usual.
 
-This is all within subject, so there might be carry over effects. Next I'm only looking at trial 1.
+Conditions: 
+
+* Barrier (bar): One object is blocked by the barrier. 
+* Later (abs): One object is absent when the utterance starts and appears later. It appears after the agent has said "Oh cool" but before the  label is uttered for the first time.
+* Test (no): Usual informativeness condition.
+
+The only difference between the two experiments is that I removed the "Can you give her the toy she wants" sentence, displayed during the choice phase, in the first experiment and put it back for the replication. I did this because the effect was so strong in the previous studies and I was looking for ways to make it more variable. For the replication, I simply put it back because the effect in the test condition was rather small. It's kind of surprising that it seems to make a difference. I guess what it does is that it reminds participants to pay attention to the agents and thereby prevents them from "zoning out" and adopting a simple response strategy.
+
+Links to experiments in case you want to have a look:
+
+Control: https://langcog.stanford.edu/expts/cue/exp/within_s/cue_control1.html
+
+Replication: https://langcog.stanford.edu/expts/cue/exp/within_s/cue_control2.html
+
+I moved all the sanity, trial and agent checks to the bottom. They look fine overall.
+
+Here is the overall plot, conditions by experiment.
+
+The controls seem to work, even though the overall effect in the test condition is substantially reduced compared to previous studies. The controls seem to "infect" the test, probably because some people adopt the strategy to simply ignore the second table. We know from the between experiments that the test effect is much stronger when presented alone. To complete things, we could run the controls between subject as well.
 ```{r plot overall}
 
 ms <- d %>%
   filter(trial_type == "test") %>%
-  group_by(control, id) %>%
+  group_by(control,experiment, id) %>%
   summarise(correct = mean(correct)) %>%
   multi_boot_standard(col = "correct")
 
@@ -45,6 +55,7 @@ ggplot(ms,
        aes(x = control, y = mean, fill = control)) +
   geom_bar(stat="identity") + 
   geom_linerange(aes(ymin = ci_lower, ymax = ci_upper)) + 
+  facet_wrap(~ experiment) +
   geom_hline(yintercept = 0.5, lty=2)+
   labs(x="",y="Proportion Expected Choice")+
   theme_few(base_size = 12) + 
@@ -55,21 +66,106 @@ ggplot(ms,
                      labels=c("Control - Barrier", "Control - Later","Test"))
 ```
 
-First, check how much data for trial 1 we have per condition (order was completely randomized). Roughly equally distributed.
+
+Tests against chance per condition. We only have 3 trials per subject per condition, that's why t-tests aren't the best option. I used wilcoxon tests instead. There is no Bayesian version of a wilcoxon test, yet.
+```{r tests against chance}
+## Wilcoxon tests against chance
+library(exactRankTests)
+
+d %>%
+  filter(trial_type == "test") %>%
+  group_by(experiment,control, id) %>%
+  summarise(correct = mean(correct)) %>%
+  summarise(correct = list(correct)) %>%
+  group_by(experiment,control) %>%
+  mutate(mean= mean(unlist(correct)),
+         stat = wilcox.exact(unlist(correct), mu = 0.5)$statistic,
+         p = wilcox.exact(unlist(correct), mu = 0.5)$p.value) %>%
+  select(experiment,control,mean,stat,p) %>%
+  knitr::kable(digits = 3)
+ 
+```
+
+Brm Models for the two experiments. Reference level is the test condition.
+
+Results are the same in both experiments. The estimates for both control conditions are negative and the CIs do not overlap with zero. Bottom line: More correct choice in the test compared to the two control conditions. 
+
+In the second model, the CI for the intercept does not overlap with 0, reflecting the result of the Wilcoxon test. 
+
+If we want to run kids in this, the barrier control might be more difficult because it has and additional perspective taking component. Therefore, if we were to only run one of them, we should probably do the "later" condition.
+
+```{r model}
+## model
+library(brms)
+
+
+# controls
+
+data_inf <- d %>%
+  filter(trial_type == "test" & experiment == "cue_strength_controls") %>%
+  mutate(control  = as.factor(control))
+
+data_inf$control =  relevel(data_inf$control,"no")
+
+# registered  model
+bm <- brm(correct ~ control +
+              (control |id) + (control |agent), 
+          data = data_inf, family = bernoulli(),
+          control = list(adapt_delta = 0.90),
+          iter = 5000)
+
+summary(bm)
+```
+
+
+```{r model replication}
+# replication 
+data_inf <- d %>%
+  filter(trial_type == "test" & experiment == "cue_strength_controls_replication") %>%
+  mutate(control  = as.factor(control))
+
+data_inf$control =  relevel(data_inf$control,"no")
+
+# registered  model
+bm_rep <- brm(correct ~ control +
+              (control |id) + (control |agent), 
+          data = data_inf, family = bernoulli(),
+          control = list(adapt_delta = 0.90),
+          iter = 5000)
+
+summary(bm_rep)
+
+```
+
+
+
+Sanity checks.
+```{r training performance}
+## performance in training and test
+d %>%
+  group_by(trial_type,experiment) %>%
+  summarise(n = length(unique(id)), 
+            correct = mean(correct)) %>%
+  knitr::kable(digits = 3)
+
+```
+
+
+First, check how much data for trial 1 we have per condition (order was completely randomized). Quite some variation.
 ```{r trial 1 data}
 d %>%
   filter(trial == "1") %>%
-  group_by(control) %>%
+  group_by(control,experiment) %>%
   summarise(n = length(unique(id)), 
             correct = mean(correct)) %>%
   knitr::kable(digits = 2)
 ```
 
-Plot for trial 1. Similar to overall pattern, maybe a little weaker for look alone. Not sure if following up between subject would be worth it? 
+Plot for trial 1. Very variable but same qualitative pattern. Test seems much weaker in the first experiment, which reflects the overall result
 ```{r plot trial 1}
 ms <- d %>%
   filter(trial == "1") %>%
-  group_by(control, id) %>%
+  group_by(control,experiment, id) %>%
   summarise(correct = mean(correct)) %>%
   multi_boot_standard(col = "correct")
 
@@ -78,6 +174,7 @@ ggplot(ms,
   geom_bar(stat="identity") + 
   geom_linerange(aes(ymin = ci_lower, ymax = ci_upper)) + 
   geom_hline(yintercept = 0.5, lty=2)+
+  facet_wrap(~ experiment) +
   labs(x="",y="Proportion Expected Choice")+
   theme_few(base_size = 12) + 
   ylim(0,1)+
@@ -88,12 +185,12 @@ ggplot(ms,
 ```
 
 Effect of target object location on table. Inner = closer to the agent, outer = further away. 
-General bias to pick the inner object, considerably stronger for point. Probably because the poitning finger is closer to the inner object.  
+Interestingly the bias to pick the inner object was not there in the replication.  
 ```{r inner vs outer location}
 ## performance in training and test
 ms <- d %>%
   filter(trial_type == "test") %>%
-  group_by(targetOnTable,control, id) %>%
+  group_by(targetOnTable,control,experiment, id) %>%
   summarise(correct = mean(correct)) %>%
   multi_boot_standard(col = "correct")
 
@@ -102,7 +199,7 @@ ggplot(ms,
   geom_bar(stat="identity") + 
   geom_linerange(aes(ymin = ci_lower, ymax = ci_upper)) + 
   geom_hline(yintercept = 0.5, lty=2)+
-  facet_wrap(~ targetOnTable) +
+  facet_wrap(targetOnTable~ experiment) +
   labs(x="",y="Proportion Expected Choice")+
   theme_few(base_size = 12) +
   ylim(0,1)+
@@ -117,13 +214,14 @@ Condition by trial overall. Looks pretty random.
 ```{r plot trials}
 ms <- d %>%
   filter(trial_type == "test") %>%
-  group_by(control, trial, id) %>%
+  group_by(control,experiment, trial, id) %>%
   summarise(correct = mean(correct)) %>%
   multi_boot_standard(col = "correct")
 
 ggplot(ms, 
        aes(x = trial, y = mean, col = control)) +
   geom_line(aes(group= control)) + 
+  facet_wrap(~ experiment) +
   geom_pointrange(aes(ymin = ci_lower, ymax = ci_upper), 
                   position = position_dodge(width = .1)) + 
   geom_hline(yintercept = 0.5, lty=2)+
@@ -141,11 +239,11 @@ Conditions by agents.
 #   knitr::kable(digits = 2)
 ```
 
-Agent effect. Cat seems a little strange in point label, but also very few data.
+Agent effect. For whatever reason, they seem to think that Elephant, Frog and Monkey are particularly informative.
 ```{r plot agents}
 ms <- d %>%
   filter(trial_type == "test") %>%
-  group_by(control, agent, id) %>%
+  group_by(control,experiment, agent, id) %>%
   summarise(correct = mean(correct)) %>%
   multi_boot_standard(col = "correct")
 
@@ -155,58 +253,8 @@ ggplot(ms,
   geom_pointrange(aes(ymin = ci_lower, ymax = ci_upper), 
                   position = position_dodge(width = .1)) + 
   geom_hline(yintercept = 0.5, lty=2)+
+  facet_wrap(~ experiment) +
   theme_few() + 
   scale_colour_solarized()
-```
-
-Tests against chance per condition. We only have 2 trials per subject per condition, that's why t-tests aren't the best option. I used wilcoxon tests instead. We would get the same info out of the model but this might be helpful for a quick overview. There is no Bayesian version of a wilcoxon test, yet.
-```{r tests against chance}
-## Wilcoxon tests against chance
-library(exactRankTests)
-
-d %>%
-  filter(trial_type == "test") %>%
-  group_by(control, id) %>%
-  summarise(correct = mean(correct)) %>%
-  summarise(correct = list(correct)) %>%
-  group_by(control) %>%
-  mutate(mean= mean(unlist(correct)),
-         stat = wilcox.exact(unlist(correct), mu = 0.5)$statistic,
-         p = wilcox.exact(unlist(correct), mu = 0.5)$p.value) %>%
-  select(control,mean,stat,p) %>%
-  knitr::kable(digits = 3)
- 
-```
-
-Brm Model. It's the first time I run a Bayesian model, so I'm not sure how to properly tweak the settings. Whatever I do, I get the following error message:
-
-"The model has not converged (some Rhats are > 1.1). Do not analyse the results! 
-We recommend running more iterations and/or setting stronger priors"
-
-I did run more iterations and also adjusted the delta level. There are some changes in the fixed effects depending on the settings.
-
-Model output with 10 times the iterations and higher delta is pasted below.
-
-In any case, the output reflects what we see in the graph: No difference between conditions (here look is the reference level).
-
-```{r model}
-## model
-library(brms)
-
-data_inf <- d %>%
-  filter(trial_type == "test") %>%
-  mutate(control  = as.factor(control))
-  
-data_inf$control =  relevel(data_inf$control,"no")
-
-# registered  model
-bm <- brm(correct ~ control +
-              (control |id) + (control |agent), 
-          data = data_inf, family = bernoulli(),
-          control = list(adapt_delta = 0.90),
-          iter = 2000)
-
-summary(bm)
-
 ```
 
