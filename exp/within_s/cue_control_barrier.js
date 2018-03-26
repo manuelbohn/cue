@@ -186,7 +186,7 @@ $("#button").click(function() {
 // Progress bar
 
 $("#progressbar").progressbar();
-$("#progressbar").progressbar( "option", "max", 13);
+$("#progressbar").progressbar( "option", "max", 12);
 
 // move progress bar
 
@@ -230,12 +230,12 @@ $.ajax({
 
 // Variables and randomization for the experiment
 
-var trial = ["train1","train2","finTrain",1,2,3,4,5,6,7,8,9]
+var trial = ["train1","train2","finTrain",1,2,3,4,5,6,7,8]
 // agent order for training
 var trainAgents = ["Elephant","Pig"]
 var allAgents = ["Elephant","Beaver","Frog","Mouse","Monkey","Bunny","Dog","Bear","Tiger","Cat","Sheep"];
 // randomization of agent order for test trials
-var testAgents = allAgents.sort(() => .5 - Math.random()).slice(0,9);
+var testAgents = allAgents.sort(() => .5 - Math.random()).slice(0,8);
 var agents = trainAgents.concat(testAgents);
 
 // randomizing order of control and test condition
@@ -257,10 +257,10 @@ var trainFruitLeft = ["car","duck"];
 var trainFruitRight = ["bear","ball"];
 var fruits = ["t1","t2","t3","t4","t5","t6","t7","t8","t9","t10", "t11","t12","t13","t14","t15","t16","t17","t18"];
 // randomizing order and combiantion of test objects
-var testRightFruit = fruits.sort(() => .5 - Math.random()).slice(0,9);
+var testRightFruit = fruits.sort(() => .5 - Math.random()).slice(0,8);
 var remainingFruits = $.grep(fruits, function(value) {
     return $.inArray(value, testRightFruit) < 0;});
-var testLeftFruit = remainingFruits.sort(() => .5 - Math.random()).slice(0,9);
+var testLeftFruit = remainingFruits.sort(() => .5 - Math.random()).slice(0,8);
 var leftFruit = trainFruitLeft.concat(testLeftFruit);
 var rightFruit = trainFruitRight.concat(testRightFruit);
 
