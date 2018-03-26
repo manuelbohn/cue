@@ -230,7 +230,7 @@ $.ajax({
 
 // Variables and randomization for the experiment
 
-var trial = ["train1","train2","finTrain",1,2,3,4,5,6,7,8,9]
+var trial = ["train1","train2","finTrain",1,2,3,4,5,6,7,8]
 // agent order for training
 var trainAgents = ["Elephant","Pig"]
 var allAgents = ["Elephant","Beaver","Frog","Mouse","Monkey","Bunny","Dog","Bear","Tiger","Cat","Sheep"];
