@@ -17,7 +17,7 @@ library(ggthemes)
 d <- bind_rows(read_csv(file="cue.btw.look.data.csv"),
                read_csv(file="cue.btw.lookLabel.data.csv"),
                read_csv(file="cue.btw.point.data.csv"),
-               read_csv(file="cue.btw.pointLabel.data.csv"),) %>%
+               read_csv(file="cue.btw.pointLabel.data.csv")) %>%
   mutate(trial_type = ifelse(trial == "train", "train", "test"))
 
 ```

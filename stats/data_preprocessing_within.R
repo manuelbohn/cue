@@ -18,9 +18,9 @@ setwd("~/Work/CueStrength/git/stats/")
 #files <- dir("~/Work/CueStrength/cosub_within_s/anonymized-results/")
 #files <- dir("~/Work/CueStrength/cosub_within_control/anonymized-results/")
 #files <- dir("~/Work/CueStrength/cosub_within_control2/anonymized-results/")
-#files <- dir("~/Work/CueStrength/cosub_within_control_barrier/anonymized-results/")
-#files <- dir("~/Work/CueStrength/cosub_within_control_later/anonymized-results/")
-#files <- dir("~/Work/CueStrength/cosub_within_control_test/anonymized-results/")
+#files <- dir("~/Work/CueStrength/cosub_between_control_barrier/anonymized-results/")
+files <- dir("~/Work/CueStrength/cosub_between_control_later/anonymized-results/")
+#files <- dir("~/Work/CueStrength/cosub_between_control_test/anonymized-results/")
 
 #combine files into one dataframe
 raw <- data.frame()
@@ -28,9 +28,9 @@ for (f in files) {
 #  jf <- paste("~/Work/CueStrength/cosub_within_s/anonymized-results/",f,sep="")
 #  jf <- paste("~/Work/CueStrength/cosub_within_control/anonymized-results/",f,sep="")
 #  jf <- paste("~/Work/CueStrength/cosub_within_control2/anonymized-results/",f,sep="")
-#  jf <- paste("~/Work/CueStrength/cosub_within_control_later/anonymized-results/",f,sep="")
-#  jf <- paste("~/Work/CueStrength/cosub_within_control_barrier/anonymized-results/",f,sep="")
-#  jf <- paste("~/Work/CueStrength/cosub_within_control_test/anonymized-results/",f,sep="")
+  jf <- paste("~/Work/CueStrength/cosub_between_control_later/anonymized-results/",f,sep="")
+#  jf <- paste("~/Work/CueStrength/cosub_between_control_barrier/anonymized-results/",f,sep="")
+#  jf <- paste("~/Work/CueStrength/cosub_between_control_test/anonymized-results/",f,sep="")
   
   jd <- fromJSON(paste(readLines(jf), collapse=""))
   id <- data.frame(workerid = jd$WorkerId, 
@@ -55,7 +55,7 @@ head(inf.data)
 # write csv file for further analysis
 #write.csv(inf.data, file="cue.data.csv")
 #write.csv(inf.data, file="cue_control_2.data.csv")
-#write.csv(inf.data, file="cue_control_later.data.csv")
+write.csv(inf.data, file="cue_control_later.data.csv")
 #write.csv(inf.data, file="cue_control_barrier.data.csv")
 #write.csv(inf.data, file="cue_control_test.data.csv")
 

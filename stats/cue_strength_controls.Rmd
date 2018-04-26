@@ -63,7 +63,7 @@ ggplot(ms,
   theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
   scale_fill_solarized(name="Condition",
                      breaks=c("abs", "bar","no"),
-                     labels=c("Control - Barrier", "Control - Later","Test"))
+                     labels=c("Control - Later", "Control - Barrier","Test"))
 ```
 
 
@@ -179,9 +179,9 @@ ggplot(ms,
   theme_few(base_size = 12) + 
   ylim(0,1)+
   theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
-  scale_fill_solarized(name="Condition",
+   scale_fill_solarized(name="Condition",
                      breaks=c("abs", "bar","no"),
-                     labels=c("Control - Barrier", "Control - Later","Test"))
+                     labels=c("Control - Later", "Control - Barrier","Test"))
 ```
 
 Effect of target object location on table. Inner = closer to the agent, outer = further away. 
@@ -206,7 +206,7 @@ ggplot(ms,
   theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
   scale_fill_solarized(name="Condition",
                      breaks=c("abs", "bar","no"),
-                     labels=c("Control - Barrier", "Control - Later","Test"))
+                     labels=c("Control - Later", "Control - Barrier","Test"))
 
 ```
 

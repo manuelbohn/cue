@@ -16,36 +16,125 @@ library(ggthemes)
 ## importing data
 d <- bind_rows(read_csv(file="cue_control_test.data.csv"),
                read_csv(file="cue_control_barrier.data.csv"),
-               read_csv(file="cue_control_later.data.csv")) %>%
-  mutate(trial_type = ifelse(trial == "train", "train", "test"))
-
+               read_csv(file="cue_control_later.data.csv"),
+               read_csv(file="cue_control_1.data.csv"),
+               read_csv(file="cue_control_2.data.csv"),
+               read_csv(file="cue_within.data.csv"),
+               read_csv(file="cue.btw.look.data.csv"),
+               read_csv(file="cue.btw.lookLabel.data.csv"),
+               read_csv(file="cue.btw.point.data.csv"),
+               read_csv(file="cue.btw.pointLabel.data.csv")) %>%
+  mutate(trial_type = ifelse(trial == "train", "train", "test")) %>%
+  mutate(control = ifelse(is.na(control) , "test", control)) %>%
+  mutate(condition = ifelse(control == "no" | control == "test" , condition, control)) %>%
+  mutate(phase = ifelse(control == "test", "Cues", "Controls")) %>%
+  mutate(design = ifelse(experiment == "cue_strength_controls" | experiment == "cue_strength_controls_replication" | experiment == "cue_strength_within" , "within", "between"))
 
 ```
 
-Here are the results from the between subject replication. Test effect is back and the test is way better compared to the controls.
-Interestingly, in the "later" condition, subjects now draw the opposite conclusion, namely that it is the more frequent one.
-
-Sanity checks etc. are at the bottom again.
 ```{r plot overall}
 
 ms <- d %>%
   filter(trial_type == "test") %>%
-  group_by(control, id) %>%
-  summarise(correct = mean(correct)) %>%
+  group_by(condition ,design, id) %>%
+  summarise(correct = mean(correct)) 
+
+ms2 <- ms %>%
   multi_boot_standard(col = "correct")
 
+
+ggplot() +
+  geom_jitter(data = ms, aes(x = condition, y = correct, col = condition, alpha = .2), width = .2,height = .015)+
+  geom_pointrange(data = ms2,aes(x = condition, y = mean, col = condition,ymin = ci_lower, ymax = ci_upper), 
+                  position = position_dodge(width = .5), size = 1)+
+  geom_hline(yintercept = 0.5, lty=2)+
+  labs(x="",y="Proportion Expected Choice")+
+  facet_grid( design ~ . , scales = "free_x", space = "free_x" ) +
+  theme_few(base_size = 12) + 
+  ylim(-0.05,1.05)+
+  theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
+  guides(alpha = F)+
+  scale_color_solarized(name="Condition",
+                     breaks=c("abs", "bar","look", "lookLabel","point", "pointLabel"),
+                     labels=c("Control - Later", "Control - Barrier","Test - Look", "Test - Look + Label", "Test - Point", "Test - Point + Label"))
+
+```
+
+```{r plot overall bar}
+
+ms <- d %>%
+  filter(trial_type == "test") %>%
+  group_by(condition ,design, id) %>%
+  summarise(correct = mean(correct)) %>%
+  multi_boot_standard(col = "correct")  
+
 ggplot(ms, 
-       aes(x = control, y = mean, fill = control)) +
+       aes(x = condition, y = mean, fill = condition)) +
   geom_bar(stat="identity") + 
   geom_linerange(aes(ymin = ci_lower, ymax = ci_upper)) + 
   geom_hline(yintercept = 0.5, lty=2)+
   labs(x="",y="Proportion Expected Choice")+
+  facet_grid( design ~ . , scales = "free_x", space = "free_x" ) +
   theme_few(base_size = 12) + 
   ylim(0,1)+
   theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
   scale_fill_solarized(name="Condition",
-                     breaks=c("abs", "bar","no"),
-                     labels=c("Control - Later", "Control - Barrier","Test"))
+                     breaks=c("abs", "bar","look", "lookLabel","point", "pointLabel"),
+                     labels=c("Control - Later", "Control - Barrier","Test - Look", "Test - Look + Label", "Test - Point", "Test - Point + Label"))
+```
+
+
+```{r plot by phase}
+
+ms <- d %>%
+  filter(trial_type == "test") %>%
+  group_by(condition, phase ,design, id) %>%
+  summarise(correct = mean(correct)) 
+
+ms2 <- ms %>%
+  multi_boot_standard(col = "correct")
+
+
+ggplot() +
+  geom_jitter(data = ms, aes(x = condition, y = correct, col = condition, alpha = .2), width = .2,height = .015)+
+  geom_pointrange(data = ms2,aes(x = condition, y = mean, col = condition,ymin = ci_lower, ymax = ci_upper), 
+                  position = position_dodge(width = .5), size = 1)+
+  geom_hline(yintercept = 0.5, lty=2)+
+  labs(x="",y="Proportion Expected Choice")+
+  facet_grid( design ~ phase , scales = "free_x", space = "free_x" ) +
+  theme_few(base_size = 12) + 
+  ylim(-0.05,1.05)+
+  theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
+  guides(alpha = F)+
+  scale_color_solarized(name="Condition",
+                     breaks=c("abs", "bar","look", "lookLabel","point", "pointLabel"),
+                     labels=c("Control - Later", "Control - Barrier","Test - Look", "Test - Look + Label", "Test - Point", "Test - Point + Label"))
+
+
+```
+
+
+```{r plot by phase bar}
+
+ms <- d %>%
+  filter(trial_type == "test") %>%
+  group_by(condition, phase ,design, id) %>%
+  summarise(correct = mean(correct)) %>%
+  multi_boot_standard(col = "correct")
+
+ggplot(ms, 
+       aes(x = condition, y = mean, fill = condition)) +
+  geom_bar(stat="identity") + 
+  geom_linerange(aes(ymin = ci_lower, ymax = ci_upper)) + 
+  geom_hline(yintercept = 0.5, lty=2)+
+  labs(x="",y="Proportion Expected Choice")+
+  facet_grid(design ~ phase, scales = "free_x", space = "free_x" ) +
+  theme_few(base_size = 12) + 
+  ylim(0,1)+
+  theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
+  scale_fill_solarized(name="Condition",
+                     breaks=c("abs", "bar","look", "lookLabel","point", "pointLabel"),
+                     labels=c("Control - Later", "Control - Barrier","Test - Look", "Test - Look + Label", "Test - Point", "Test - Point + Label"))
 ```
 
 
@@ -58,20 +147,19 @@ library(BayesFactor)
 
 d %>%
   filter(trial_type == "test") %>%
-  group_by(control, id) %>%
+  group_by(condition, id) %>%
   summarise(correct = mean(correct)) %>%
   summarise(correct = list(correct)) %>%
-  group_by(control) %>%
+  group_by(condition) %>%
   mutate(mean= mean(unlist(correct)),
-         bf = extractBF(ttestBF(unlist(correct), mu = 0.5))$bf) %>%
-  select(control,mean,bf) %>%
+         bf = extractBF(ttestBF(unlist(correct), mu = 0.5))$bf, onlybf = TRUE) %>%
+  select(condition,mean,bf) %>%
   knitr::kable(digits = 3)
  
 ```
 
 Brm Models. Reference level is the test condition.
 
-General result is the same as in the within studies: test is better compared to controls.
 
 ```{r model}
 ## model
