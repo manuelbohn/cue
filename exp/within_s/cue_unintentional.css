@@ -160,9 +160,48 @@ nextButton[disabled] {
 
 .barrier_rc {
     position: absolute;
-    bottom: 350px;
+    bottom: 600px;
     left: 630px;
     width: 300px;
+    z-index: -1
+}
+
+
+
+.bell_rc {
+    position: absolute;
+    bottom: 650px;
+    left: 850px;
+    width: 100px;
+    z-index: 1
+}
+
+
+
+.bell_lc {
+    position: absolute;
+    bottom: 650px;
+    left: 50px;
+    width: 100px;
+    z-index: 1
+}
+
+
+.dis_r {
+    position: absolute;
+    bottom: 500px;
+    left: 570px;
+    width: 180px;
+    z-index: -1
+}
+
+
+
+.dis_l {
+    position: absolute;
+    bottom: 500px;
+    left: 290px;
+    width: 180px;
     z-index: -1
 }
 
@@ -315,6 +354,15 @@ nextButton[disabled] {
 
 
 .dis {
+    position: absolute;
+    bottom: 430px;
+    left: 100px;
+    width: 840px;
+    z-index: -2
+}
+
+
+.dis2 {
     position: absolute;
     bottom: 430px;
     left: 100px;

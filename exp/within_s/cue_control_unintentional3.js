@@ -84,19 +84,19 @@ function showEat(id) {
 
 
 function hideBellChoice () {
-	$(".dis_r").hide();
-	$(".dis_l").hide();
+	$(".bell_rc").hide();
+	$(".bell_lc").hide();
 };
 
 
 function showBellRightChoice () {
-	$(".dis_l").hide();
-	$("#dis_r").show();
+	$(".bell_lc").hide();
+	$("#bell_rc").show();
 };
 
 function showBellLeftChoice () {
-	$(".dis_r").hide();
-	$("#dis_l").show();
+	$(".bell_rc").hide();
+	$("#bell_lc").show();
 };
 
 
@@ -218,7 +218,7 @@ $.ajax({
 var trial = ["train1","train2","finTrain",1,2,3,4,5,6,7,8]
 // agent order for training
 var trainAgents = ["Elephant","Pig"]
-var allAgents = ["Beaver","Frog","Mouse","Monkey","Bunny","Dog","Bear","Tiger","Cat","Sheep"];
+var allAgents = ["Elephant","Beaver","Frog","Mouse","Monkey","Bunny","Dog","Bear","Tiger","Cat","Sheep"];
 // randomization of agent order for test trials
 var testAgents = allAgents.sort(() => .5 - Math.random()).slice(0,8);
 var agents = trainAgents.concat(testAgents);
@@ -550,7 +550,7 @@ var experiment = {
                   
                      
                     showBellLeftChoice ();
-                    sourceSound("sound/beaver_dis.mp3");
+                    sourceSound("sound/ring.mp3");
                     playSound();
                      
                     setTimeout(function() {    
@@ -583,7 +583,7 @@ var experiment = {
                     
                     showBellRightChoice()
                     
-                    sourceSound("sound/beaver_dis.mp3");
+                    sourceSound("sound/ring.mp3");
                     playSound(); 
                     
                     setTimeout(function() {    

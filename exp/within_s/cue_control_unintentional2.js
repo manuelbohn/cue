@@ -82,21 +82,36 @@ function showEat(id) {
 	$("#"+id+"_eat").show();
 };
 
+function showBarrierRight () {
+	$(".barrier_l").hide();
+	$("#barrier_r").show();
+};
 
-function hideBellChoice () {
-	$(".dis_r").hide();
-	$(".dis_l").hide();
+function showBarrierLeft () {
+	$(".barrier_r").hide();
+	$("#barrier_l").show();
+};
+
+function hideBarrier () {
+	$(".barrier_r").hide();
+	$(".barrier_l").hide();
 };
 
 
-function showBellRightChoice () {
-	$(".dis_l").hide();
-	$("#dis_r").show();
+function hideBarrierChoice () {
+	$(".barrier_rc").hide();
+	$(".barrier_lc").hide();
 };
 
-function showBellLeftChoice () {
-	$(".dis_r").hide();
-	$("#dis_l").show();
+
+function showBarrierRightChoice () {
+	$(".barrier_lc").hide();
+	$("#barrier_rc").show();
+};
+
+function showBarrierLeftChoice () {
+	$(".barrier_rc").hide();
+	$("#barrier_lc").show();
 };
 
 
@@ -218,7 +233,7 @@ $.ajax({
 var trial = ["train1","train2","finTrain",1,2,3,4,5,6,7,8]
 // agent order for training
 var trainAgents = ["Elephant","Pig"]
-var allAgents = ["Beaver","Frog","Mouse","Monkey","Bunny","Dog","Bear","Tiger","Cat","Sheep"];
+var allAgents = ["Elephant","Beaver","Frog","Mouse","Monkey","Bunny","Dog","Bear","Tiger","Cat","Sheep"];
 // randomization of agent order for test trials
 var testAgents = allAgents.sort(() => .5 - Math.random()).slice(0,8);
 var agents = trainAgents.concat(testAgents);
@@ -253,14 +268,14 @@ var rightFruit = trainFruitRight.concat(testRightFruit);
 var agentOrient = [
     ["straight","down"],
     ["straight","down"],
-    ["straight","down"],
-    ["straight","down"],
-    ["straight","down"],
-    ["straight","down"],
-    ["straight","down"],
-    ["straight","down"],
-    ["straight","down"],
-    ["straight","down"]];
+    ["straight","torn","down"],
+    ["straight","torn","down"],
+    ["straight","torn","down"],
+    ["straight","torn","down"],
+    ["straight","torn","down"],
+    ["straight","torn","down"],
+    ["straight","torn","down"],
+    ["straight","torn","down"]];
 
 // randomizing location of target object (i.e. single object)
 var trainInf = ["left","right"];
@@ -356,7 +371,7 @@ var experiment = {
       
     // data collected  
       data = {
-        experiment: "cue_strength_unintentional",
+        experiment: "cue_strength_controls_barrier",
         trial: trial[0],
         cond: cond[0],
         control: control[0],
@@ -385,14 +400,6 @@ var experiment = {
     $("#text").text("");
     $("#text2").text("");
     $("#text3").text("");
-     
-     
-     
-     $("#choiceFruit_l").css({left: "244px", opacity: 1}); 
-     $("#choiceFruit_l2").css({left: "103px", opacity: 1}); 
-     
-     $("#choiceFruit_r").css({left: "660px", opacity: 1}); 
-     $("#choiceFruit_r2").css({left: "804px", opacity: 1}); 
    
     sourceLeftFruit("images/empty.png");
             showLeftFruit(); 
@@ -403,6 +410,12 @@ var experiment = {
     sourceRightFruit2("images/empty.png");
             showRightFruit();
      
+     
+     $("#fruit_l").css({left: "244px", opacity: 1}); 
+     $("#fruit_l2").css({left: "103px", opacity: 1}); 
+     
+     $("#fruit_r").css({left: "660px", opacity: 1}); 
+     $("#fruit_r2").css({left: "804px", opacity: 1});  
      
     experiment.trial.shift();
     experiment.control.shift();
@@ -431,29 +444,29 @@ var experiment = {
     
     showSlide("choice");   
          
-      $("#text2").text("")
-      $("#text3").text("")
+    $("#text3").text("")   
+    $("#text2").text("")  
     setTimeout(function() {$("#text2").text("Click on the toy")}, 9000);
     
     // show agent
     
-    // show agent name
-      
-      setTimeout(function() {       
-          if (agents[0] == "Mouse" ||
-              agents[0] == "Tiger" ||
-              agents[0] == "Cat" ||
-              agents[0] == "Bunny" ||
-              agents[0] == "Sheep"){  
-              $("#text3").text("Can you give her the toy she wants?") 
-          } else { 
-              $("#text3").text("Can you give him the toy he wants?")
-          }
-      }, 6000)  
-      
-
+  setTimeout(function() {   
+    if (agents[0] == "Mouse" ||
+        agents[0] == "Tiger" ||
+        agents[0] == "Cat" ||
+        agents[0] == "Bunny" ||
+        agents[0] == "Sheep"){  
+    $("#text3").text("Can you give her the toy she wants?") 
+    } else { 
+   $("#text3").text("Can you give him the toy he wants?")
+     }
+  }, 6000)      
+    // show control barrier
      
-    
+    hideBarrierChoice();
+
+      
+      
       choiceRightFruit("images/empty.png") 
       choiceRightFruit2("images/empty.png") 
       choiceLeftFruit("images/empty.png") 
@@ -466,7 +479,6 @@ var experiment = {
         sourceSound("sound/"+agents[0]+"_train.mp3");
         playSound(); 
     
-        hideBellChoice();
         
         choiceLeftFruit("images/"+leftFruit[0]+".png");
         choiceLeftFruit2("images/empty.png");
@@ -475,147 +487,145 @@ var experiment = {
         choiceRightFruit2("images/empty.png");
         
         } else if (experiment.trial[0] == "train2"){
-            showAgent(agents[0],"look_choice_r");
+        showAgent(agents[0],"look_choice_r");
         
-            sourceSound("sound/"+agents[0]+"_train.mp3");
-            playSound();     
-         
-            hideBellChoice();  
+        sourceSound("sound/"+agents[0]+"_train.mp3");
+        playSound();     
             
-            choiceLeftFruit("images/empty.png");
-            choiceLeftFruit2("images/"+leftFruit[0]+".png");
+        choiceLeftFruit("images/empty.png");
+        choiceLeftFruit2("images/"+leftFruit[0]+".png");
       
-            choiceRightFruit("images/empty.png");     
-            choiceRightFruit2("images/"+rightFruit[0]+".png");
+        choiceRightFruit("images/empty.png");     
+        choiceRightFruit2("images/"+rightFruit[0]+".png");
         
         } else {
+            if (experiment.cond[0] == "lookLabel"){
         
-            if (experiment.control[0] == "no") {
+            
                 if (experiment.inf[0] == "left") {
                   
-                    
-                    showAgent(agents[0],"choice");
-                    
-                    hideBellChoice();
-                    
-                    setTimeout(function() {    
-                        showAgent(agents[0],"look_choice_l");
-                      }, 1000)
-                    
-                   setTimeout(function() {    
-                       sourceSound("sound/"+agents[0]+"_choice.mp3");
-                       playSound(); 
-                    }, 4000)
-                    choiceLeftFruit("images/"+experiment.fruitPosition[0]+".png");
-                    choiceLeftFruit2("images/"+experiment.fruitPosition.filter(function(x) { return x !== experiment.fruitPosition[0]; })+".png");
-      
-                    choiceRightFruit("images/"+rightFruit[0]+".png"); choiceRightFruit2("images/empty.png");
-                    
-                    
-                    setTimeout(function() {    
-                       $("#choiceFruit_r").animate({left: "900px", opacity:0 },2000);
-                    }, 1500)
-                    
-                } else { 
-                
-                    showAgent(agents[0],"choice");
-                    
-                    hideBellChoice();
-                    
-                    setTimeout(function() {    
-                        showAgent(agents[0],"look_choice_r");
-                    }, 1000)
-                   
-                    setTimeout(function() { 
-                        sourceSound("sound/"+agents[0]+"_choice.mp3");
-                        playSound(); 
-                    }, 4000)
-                    
-                    
-                    choiceLeftFruit("images/"+leftFruit[0]+".png");
-                    choiceLeftFruit2("images/empty.png");
-                    
-                    setTimeout(function() {    
-                        $("#choiceFruit_l").animate({left: "0px", opacity: 0},2000);
-                    }, 1500)
-      
-                    choiceRightFruit("images/"+experiment.fruitPosition[0]+".png");     
-                    choiceRightFruit2("images/"+experiment.fruitPosition.filter(function(x) { return x !== experiment.fruitPosition[0]; })+".png");
-                    
-                }; 
-                
-            } else {
-                
-                 if (experiment.inf[0] == "left") {
-                  
-                     
-                    showBellLeftChoice ();
-                    sourceSound("sound/beaver_dis.mp3");
-                    playSound();
-                     
-                    setTimeout(function() {    
-                        hideBellChoice();
-                    }, 3000)
-                    
-                    showAgent(agents[0],"choice");
-                    
-                    setTimeout(function() {    
-                        showAgent(agents[0],"look_choice_l");
-                      }, 1000)
-                    
-                   setTimeout(function() {    
-                       sourceSound("sound/"+agents[0]+"_choice.mp3");
-                       playSound(); 
-                    }, 4000)
-                    choiceLeftFruit("images/"+experiment.fruitPosition[0]+".png");
-                    choiceLeftFruit2("images/"+experiment.fruitPosition.filter(function(x) { return x !== experiment.fruitPosition[0]; })+".png");
-      
-                    choiceRightFruit("images/"+rightFruit[0]+".png"); choiceRightFruit2("images/empty.png");
-                    
-                    
-                    setTimeout(function() {    
-                       $("#choiceFruit_r").animate({left: "900px", opacity: 0},2000);
-                    }, 1500)
-                    
-                } else { 
-                
-                    showAgent(agents[0],"choice");
-                    
-                    showBellRightChoice()
-                    
-                    sourceSound("sound/beaver_dis.mp3");
+                   showAgent(agents[0],"look_choice_l");
+                       // play choice sound
+                    sourceSound("sound/"+agents[0]+"_choice.mp3");
                     playSound(); 
+            
+                    choiceLeftFruit("images/"+experiment.fruitPosition[0]+".png");
+                    choiceLeftFruit2("images/"+experiment.fruitPosition.filter(function(x) { return x !== experiment.fruitPosition[0]; })+".png");
+      
+                    choiceRightFruit("images/empty.png"); choiceRightFruit2("images/empty.png");
                     
-                    setTimeout(function() {    
-                        hideBellChoice();
-                      }, 3000)
+
                     
-                    setTimeout(function() {    
-                        showAgent(agents[0],"look_choice_r");
-                    }, 1000)
-                   
-                    setTimeout(function() { 
-                        sourceSound("sound/"+agents[0]+"_choice.mp3");
-                        playSound(); 
-                    }, 4000)
+                } else { 
+                
+                 showAgent(agents[0],"look_choice_r");
+                       // play choice sound
+                    sourceSound("sound/"+agents[0]+"_choice.mp3");
+                    playSound(); 
+        
+
+                    choiceLeftFruit("images/empty.png");
+                    choiceLeftFruit2("images/empty.png");
+      
+                    choiceRightFruit("images/"+experiment.fruitPosition[0]+".png"); choiceRightFruit2("images/"+experiment.fruitPosition.filter(function(x) { return x !== experiment.fruitPosition[0]; })+".png");
                     
+
+                }; 
+      
+                
+            } else if (experiment.cond[0] == "pointLabel"){
+                if (experiment.inf[0] == "left") {
                     
+                    showAgent(agents[0],"point_l")
+                       // play choice sound
+                    sourceSound("sound/"+agents[0]+"_choice.mp3");
+                    playSound(); 
+        
+                    choiceLeftFruit("images/"+experiment.fruitPosition[0]+".png");
+                    choiceLeftFruit2("images/"+experiment.fruitPosition.filter(function(x) { return x !== experiment.fruitPosition[0]; })+".png");
+      
+                    choiceRightFruit("images/empty.png"); choiceRightFruit2("images/empty.png");
+                    
+//                    $("#choiceFruit_l").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_l").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+//                    $("#choiceFruit_l2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_l2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+                    
+                } else { 
+                    
+                    showAgent(agents[0],"point_r")
+                    sourceSound("sound/"+agents[0]+"_choice.mp3");
+                    playSound(); 
+                   choiceLeftFruit("images/empty.png");
+                    choiceLeftFruit2("images/empty.png");
+      
+                    choiceRightFruit("images/"+experiment.fruitPosition[0]+".png"); choiceRightFruit2("images/"+experiment.fruitPosition.filter(function(x) { return x !== experiment.fruitPosition[0]; })+".png");
+                    
+//                    $("#choiceFruit_r").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_r").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+//                    $("#choiceFruit_r2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_r2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+                }; 
+            
+            } else if (experiment.cond[0] == "point"){
+                if (experiment.inf[0] == "left") {
+                    
+                    showAgent(agents[0],"point_l")
+        
+                    choiceLeftFruit("images/"+experiment.fruitPosition[0]+".png");
+                    choiceLeftFruit2("images/"+experiment.fruitPosition.filter(function(x) { return x !== experiment.fruitPosition[0]; })+".png");
+      
+                     choiceRightFruit("images/"+rightFruit[0]+".png"); choiceRightFruit2("images/empty.png");
+                    
+//                    $("#choiceFruit_l").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_l").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+//                    $("#choiceFruit_l2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_l2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+//                    
+                } else { 
+                    
+                    showAgent(agents[0],"point_r")
                     choiceLeftFruit("images/"+leftFruit[0]+".png");
                     choiceLeftFruit2("images/empty.png");
-                    
-                    setTimeout(function() {    
-                        $("#choiceFruit_l").animate({left: "0px", opacity: 0},2000);
-                    }, 1500)
       
-                    choiceRightFruit("images/"+experiment.fruitPosition[0]+".png");     
-                    choiceRightFruit2("images/"+experiment.fruitPosition.filter(function(x) { return x !== experiment.fruitPosition[0]; })+".png");
+                    choiceRightFruit("images/"+experiment.fruitPosition[0]+".png"); choiceRightFruit2("images/"+experiment.fruitPosition.filter(function(x) { return x !== experiment.fruitPosition[0]; })+".png");
                     
-                }; 
-                
-                
-                
+//                    $("#choiceFruit_r").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_r").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+//                    $("#choiceFruit_r2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_r2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+                };
+               
+      }  else {
+                if (experiment.inf[0] == "left") {
+                    
+                    showAgent(agents[0],"look_l")
+                    choiceLeftFruit("images/"+experiment.fruitPosition[0]+".png");
+                    choiceLeftFruit2("images/"+experiment.fruitPosition.filter(function(x) { return x !== experiment.fruitPosition[0]; })+".png");
+      
+                    choiceRightFruit("images/"+rightFruit[0]+".png"); choiceRightFruit2("images/empty.png");
+                    
+//                    $("#choiceFruit_l").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_l").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+//                    $("#choiceFruit_l2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_l2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+                    
+                } else { 
+                    
+                    showAgent(agents[0],"look_r")
+                    choiceLeftFruit("images/"+leftFruit[0]+".png");
+                    choiceLeftFruit2("images/empty.png");
+      
+                    choiceRightFruit("images/"+experiment.fruitPosition[0]+".png"); choiceRightFruit2("images/"+experiment.fruitPosition.filter(function(x) { return x !== experiment.fruitPosition[0]; })+".png");
+                    
+//                    $("#choiceFruit_r").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_r").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+//                    $("#choiceFruit_r2").animate({width: "180px",opacity: '0.3', queue: false, duration: 1000});
+//                    $("#choiceFruit_r2").animate({width: "130px",opacity: '1', queue: false, duration: 1000});
+                };
+
+             };   
             };
-        };
       
     // choice can be made by clicking the objects after 
 
@@ -677,7 +687,24 @@ if(experiment.cond[0] == "pointLabel" ||
      
     // show agent
     showAgent(agents[0],experiment.agentOrient[0][0]);  
-
+    // move agent to back  
+//    setTimeout(function() {
+//        $("#"+agents[0]+"_straight").animate({width: "180px", left: "430px", bottom:"520px", queue: false, duration: 500})
+//        }, 2000)
+    ;
+      
+    // show control barrier 
+      
+    hideBarrier()
+      
+      if (experiment.control[0] == "bar"){
+        
+        if (experiment.inf[0] == "left"){
+            showBarrierRight();
+        } else {
+            showBarrierLeft();
+        };
+    };
       
       
     // play hello sound and write name of agent
@@ -751,6 +778,174 @@ if(experiment.cond[0] == "pointLabel" ||
                 sourceRightFruit2("images/"+experiment.fruitPosition.filter(function(x) { return x !== experiment.fruitPosition[0]; })+".png");
                 showRightFruit2(); 
             };
+    };
+      
+      
+    
+    if (experiment.agentOrient[0][0] == "torn"){  
+              
+        if (experiment.control[0] == "yes" && experiment.inf[0] == "right"){
+
+                    
+            sourceSound("sound/"+agents[0]+"_torn.mp3");
+            playSound();   
+            
+            pause("next",2000); 
+            
+            showAgent(agents[0],"straight");
+                
+            $("#tornado").animate({bottom: "400px",left: "410px", queue: false},500);
+            $("#tornado").animate({bottom: "500px",left: "350px", queue: true},333);
+            $("#tornado").animate({bottom: "400px",left: "470px", queue: true},333);
+        
+            $("#tornado").animate({bottom: "500px",left: "410px", queue: true},233);
+            $("#tornado").animate({bottom: "900px",left: "410px", queue: true},200);         
+            
+            
+   setTimeout(function() {
+                $("#"+agents[0]+"_straight").animate({width: "160px", left: "390px", bottom:"600px",opacity: '0.5', queue: false},166)
+    
+                $("#"+agents[0]+"_straight").animate({width: "160px", left: "470px", bottom:"570px",opacity: '0.5', queue: true},166) 
+                
+            },300);
+            
+            setTimeout(function() {
+                $("#"+agents[0]+"_straight").rotate({
+                    angle: 0,
+                    animateTo:240,
+                    duration:700
+                });
+                      
+            },500);               
+            
+            setTimeout(function() {
+                showAgent(agents[0],"look_r");
+        
+                $("#"+agents[0]+"_look_r").animate({width: "160px", left: "400px", bottom:"600px",opacity: '0.5', queue: false},125);
+                $("#"+agents[0]+"_look_r").animate({width: "180px", left: "460px", bottom:"520px",opacity: '1', queue: true},125)   
+            }, 850);
+        
+            setTimeout(function() {
+                showAgent(agents[0],"look_l");
+                $("#"+agents[0]+"_look_l").animate({width: "160px", left: "400px", bottom:"600px",opacity: '0.5', queue: false},125);
+                $("#"+agents[0]+"_look_l").animate({width: "180px", left: "460px", bottom:"520px",opacity: '1', queue: true},125)   
+            }, 1100); 
+      
+            setTimeout(function() {
+                showAgent(agents[0],"look_r");
+                $("#"+agents[0]+"_look_r").animate({width: "160px", left: "400px", bottom:"540px",opacity: '0.5', queue: false},125);
+                $("#"+agents[0]+"_look_r").animate({width: "180px", left: "410px", bottom:"520px",opacity: '1', queue: true},125)   
+            }, 1350); 
+            
+            
+            setTimeout(function() {    
+                $("#fruit_l").animate({left: "0px", opacity: 0},2000);
+            }, 2000)    
+      
+        } else if (experiment.control[0] == "yes" && experiment.inf[0] == "left") {
+            
+            
+            sourceSound("sound/"+agents[0]+"_torn.mp3");
+            playSound();   
+            
+            pause("next",2000); 
+            
+            showAgent(agents[0],"straight");
+                
+            $("#tornado").animate({bottom: "400px",left: "410px", queue: false},500);
+            $("#tornado").animate({bottom: "500px",left: "350px", queue: true},333);
+            $("#tornado").animate({bottom: "400px",left: "470px", queue: true},333);
+        
+            $("#tornado").animate({bottom: "500px",left: "410px", queue: true},233);
+            $("#tornado").animate({bottom: "900px",left: "410px", queue: true},200);
+             
+            
+            setTimeout(function() {
+                $("#"+agents[0]+"_straight").animate({width: "160px", left: "390px", bottom:"600px",opacity: '0.5', queue: false},166)
+    
+                $("#"+agents[0]+"_straight").animate({width: "160px", left: "470px", bottom:"570px",opacity: '0.5', queue: true},166) 
+                
+            },300);
+            
+            setTimeout(function() {
+                $("#"+agents[0]+"_straight").rotate({
+                    angle: 0,
+                    animateTo:240,
+                    duration:700
+                });
+                      
+            },500);               
+            
+            setTimeout(function() {
+                showAgent(agents[0],"look_l");
+        
+                $("#"+agents[0]+"_look_l").animate({width: "160px", left: "400px", bottom:"600px",opacity: '0.5', queue: false},125);
+                $("#"+agents[0]+"_look_l").animate({width: "180px", left: "460px", bottom:"520px",opacity: '1', queue: true},125)   
+            }, 850);
+        
+            setTimeout(function() {
+                showAgent(agents[0],"look_r");
+                $("#"+agents[0]+"_look_l").animate({width: "160px", left: "400px", bottom:"600px",opacity: '0.5', queue: false},125);
+                $("#"+agents[0]+"_look_r").animate({width: "180px", left: "460px", bottom:"520px",opacity: '1', queue: true},125)   
+            }, 1100); 
+      
+            setTimeout(function() {
+                showAgent(agents[0],"look_l");
+                $("#"+agents[0]+"_look_l").animate({width: "160px", left: "400px", bottom:"540px",opacity: '0.5', queue: false},125);
+                $("#"+agents[0]+"_look_l").animate({width: "180px", left: "430px", bottom:"520px",opacity: '1', queue: true},125)   
+            }, 1350); 
+      
+            setTimeout(function() {    
+                $("#fruit_r").animate({left: "900px", opacity: 0},2000);
+            }, 2000)
+        
+        
+            
+        } else if (experiment.control[0] == "no" && experiment.inf[0] == "left") {
+            
+            showAgent(agents[0],"straight");
+            
+            pause("next",2000); 
+            
+            setTimeout(function() {
+                    showAgent(agents[0],"look_l");
+                }, 500);
+        
+                setTimeout(function() {
+                    showAgent(agents[0],"look_r");
+                }, 1000); 
+        
+                setTimeout(function() {
+                    showAgent(agents[0],"look_l");   
+                }, 1500);
+            
+            setTimeout(function() {    
+                $("#fruit_r").animate({left: "900px", opacity: 0},2000);
+            }, 2000)
+       
+        } else {
+           
+            showAgent(agents[0],"straight");
+            
+            
+            pause("next",2000); 
+            
+            setTimeout(function() {
+                    showAgent(agents[0],"look_r");
+                }, 500);
+        
+                setTimeout(function() {
+                    showAgent(agents[0],"look_l");
+                }, 1000); 
+        
+                setTimeout(function() {
+                    showAgent(agents[0],"look_r");   
+                }, 1500);
+            
+             setTimeout(function() {    
+                $("#fruit_l").animate({left: "0px", opacity: 0},2000);
+            }, 2000)
+        };
     };
                 
      
