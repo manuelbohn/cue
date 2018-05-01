@@ -433,7 +433,7 @@ var experiment = {
          
       $("#text2").text("")
       $("#text3").text("")
-    setTimeout(function() {$("#text2").text("Click on the toy")}, 9000);
+    setTimeout(function() {$("#text2").text("Click on the toy")}, 10000);
     
     // show agent
     
@@ -449,7 +449,7 @@ var experiment = {
           } else { 
               $("#text3").text("Can you give him the toy he wants?")
           }
-      }, 6000)  
+      }, 8000)  
       
 
      
@@ -500,7 +500,7 @@ var experiment = {
                     
                     setTimeout(function() {    
                         showAgent(agents[0],"look_choice_l");
-                      }, 1000)
+                      }, 500)
                     
                    setTimeout(function() {    
                        sourceSound("sound/"+agents[0]+"_choice.mp3");
@@ -524,7 +524,7 @@ var experiment = {
                     
                     setTimeout(function() {    
                         showAgent(agents[0],"look_choice_r");
-                    }, 1000)
+                    }, 500)
                    
                     setTimeout(function() { 
                         sourceSound("sound/"+agents[0]+"_choice.mp3");
@@ -561,7 +561,7 @@ var experiment = {
                     
                     setTimeout(function() {    
                         showAgent(agents[0],"look_choice_l");
-                      }, 1000)
+                      }, 500)
                     
                    setTimeout(function() {    
                        sourceSound("sound/"+agents[0]+"_choice.mp3");
@@ -592,7 +592,7 @@ var experiment = {
                     
                     setTimeout(function() {    
                         showAgent(agents[0],"look_choice_r");
-                    }, 1000)
+                    }, 500)
                    
                     setTimeout(function() { 
                         sourceSound("sound/"+agents[0]+"_choice.mp3");

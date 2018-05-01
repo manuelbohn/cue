@@ -518,7 +518,7 @@ var experiment = {
                     
                 } else { 
                 
-                 showAgent(agents[0],"look_choice_r");
+                    showAgent(agents[0],"look_choice_r");
                        // play choice sound
                     sourceSound("sound/"+agents[0]+"_choice.mp3");
                     playSound(); 
@@ -554,9 +554,11 @@ var experiment = {
                 } else { 
                     
                     showAgent(agents[0],"point_r")
+                    
                     sourceSound("sound/"+agents[0]+"_choice.mp3");
                     playSound(); 
-                   choiceLeftFruit("images/empty.png");
+                    
+                    choiceLeftFruit("images/empty.png");
                     choiceLeftFruit2("images/empty.png");
       
                     choiceRightFruit("images/"+experiment.fruitPosition[0]+".png"); choiceRightFruit2("images/"+experiment.fruitPosition.filter(function(x) { return x !== experiment.fruitPosition[0]; })+".png");
@@ -909,15 +911,15 @@ if(experiment.cond[0] == "pointLabel" ||
             
             setTimeout(function() {
                     showAgent(agents[0],"look_l");
-                }, 500);
+                }, 400);
         
                 setTimeout(function() {
                     showAgent(agents[0],"look_r");
-                }, 1000); 
+                }, 800); 
         
                 setTimeout(function() {
                     showAgent(agents[0],"look_l");   
-                }, 1500);
+                }, 1200);
             
             setTimeout(function() {    
                 $("#fruit_r").animate({left: "900px", opacity: 0},2000);
@@ -932,15 +934,15 @@ if(experiment.cond[0] == "pointLabel" ||
             
             setTimeout(function() {
                     showAgent(agents[0],"look_r");
-                }, 500);
+                }, 400);
         
                 setTimeout(function() {
                     showAgent(agents[0],"look_l");
-                }, 1000); 
+                }, 800); 
         
                 setTimeout(function() {
                     showAgent(agents[0],"look_r");   
-                }, 1500);
+                }, 1200);
             
              setTimeout(function() {    
                 $("#fruit_l").animate({left: "0px", opacity: 0},2000);

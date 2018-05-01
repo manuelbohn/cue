@@ -500,7 +500,7 @@ var experiment = {
                     
                     setTimeout(function() {    
                         showAgent(agents[0],"look_choice_l");
-                      }, 1000)
+                      }, 500)
                     
                    setTimeout(function() {    
                        sourceSound("sound/"+agents[0]+"_choice.mp3");
@@ -524,7 +524,7 @@ var experiment = {
                     
                     setTimeout(function() {    
                         showAgent(agents[0],"look_choice_r");
-                    }, 1000)
+                    }, 500)
                    
                     setTimeout(function() { 
                         sourceSound("sound/"+agents[0]+"_choice.mp3");
@@ -561,7 +561,7 @@ var experiment = {
                     
                     setTimeout(function() {    
                         showAgent(agents[0],"look_choice_l");
-                      }, 1000)
+                      }, 500)
                     
                    setTimeout(function() {    
                        sourceSound("sound/"+agents[0]+"_choice.mp3");
@@ -592,7 +592,7 @@ var experiment = {
                     
                     setTimeout(function() {    
                         showAgent(agents[0],"look_choice_r");
-                    }, 1000)
+                    }, 500)
                    
                     setTimeout(function() { 
                         sourceSound("sound/"+agents[0]+"_choice.mp3");
