@@ -550,7 +550,7 @@ var experiment = {
                   
                      
                     showBellLeftChoice ();
-                    sourceSound("sound/beaver_dis.mp3");
+                    sourceSound("sound/Beaver_dis.mp3");
                     playSound();
                      
                     setTimeout(function() {    
@@ -583,7 +583,7 @@ var experiment = {
                     
                     showBellRightChoice()
                     
-                    sourceSound("sound/beaver_dis.mp3");
+                    sourceSound("sound/Beaver_dis.mp3");
                     playSound(); 
                     
                     setTimeout(function() {    
