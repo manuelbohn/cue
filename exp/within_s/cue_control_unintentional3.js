@@ -218,7 +218,7 @@ $.ajax({
 var trial = ["train1","train2","finTrain",1,2,3,4,5,6,7,8]
 // agent order for training
 var trainAgents = ["Elephant","Pig"]
-var allAgents = ["Elephant","Beaver","Frog","Mouse","Monkey","Bunny","Dog","Bear","Tiger","Cat","Sheep"];
+var allAgents = ["Beaver","Frog","Mouse","Monkey","Bunny","Dog","Bear","Tiger","Cat","Sheep"];
 // randomization of agent order for test trials
 var testAgents = allAgents.sort(() => .5 - Math.random()).slice(0,8);
 var agents = trainAgents.concat(testAgents);
@@ -356,7 +356,7 @@ var experiment = {
       
     // data collected  
       data = {
-        experiment: "cue_strength_unintentional",
+        experiment: "cue_strength_unintentional_bell",
         trial: trial[0],
         cond: cond[0],
         control: control[0],
@@ -449,7 +449,7 @@ var experiment = {
           } else { 
               $("#text3").text("Can you give him the toy he wants?")
           }
-      }, 8000)  
+      }, 10000)  
       
 
      
@@ -638,7 +638,7 @@ if(experiment.cond[0] == "pointLabel" ||
                     $(".fruit_r2").bind("click", experiment.eat);
                 };
             };
-        }, 000)   
+        }, 6000)   
     } else {
         if (experiment.inf[0] == "left") {
                 $(".fruit_l").bind("click", experiment.eat);

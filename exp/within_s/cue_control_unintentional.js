@@ -356,7 +356,7 @@ var experiment = {
       
     // data collected  
       data = {
-        experiment: "cue_strength_unintentional",
+        experiment: "cue_strength_unintentional_person",
         trial: trial[0],
         cond: cond[0],
         control: control[0],
@@ -433,7 +433,7 @@ var experiment = {
          
       $("#text2").text("")
       $("#text3").text("")
-    setTimeout(function() {$("#text2").text("Click on the toy")}, 9000);
+    setTimeout(function() {$("#text2").text("Click on the toy")}, 10000);
     
     // show agent
     
@@ -449,7 +449,7 @@ var experiment = {
           } else { 
               $("#text3").text("Can you give him the toy he wants?")
           }
-      }, 6000)  
+      }, 10000)  
       
 
      
@@ -638,7 +638,7 @@ if(experiment.cond[0] == "pointLabel" ||
                     $(".fruit_r2").bind("click", experiment.eat);
                 };
             };
-        }, 000)   
+        }, 6000)   
     } else {
         if (experiment.inf[0] == "left") {
                 $(".fruit_l").bind("click", experiment.eat);
