@@ -1,0 +1,164 @@
+---
+title: "CueStrength unintentional tornado"
+author: "Manuel Bohn"
+date: "17 3 2018"
+output: html_document
+---
+
+```{r setup, include = FALSE}
+###
+library(tidyverse)
+library(knitr)
+library(langcog)
+library(ggthemes)
+
+
+
+```
+
+Sanity checks.
+```{r}
+## importing data
+d <- read_csv(file="cue_unintentional_tornado_between.data.csv")%>%
+  mutate(trial_type = ifelse(trial == "train", "train", "test"))
+
+# check if someone needs to be excluded because wrong in training
+# one person -> exclude
+
+x <- d %>%
+  filter(trial_type == "train") %>%
+  group_by(id)%>%
+  summarise(correct = mean(correct)) %>%
+  filter(correct == 0)
+
+d <- d %>%
+  filter(!id %in% x$id)
+
+## performance in training and test
+d %>%
+  group_by(trial_type) %>%
+  summarise(n = length(unique(id)), 
+            correct = mean(correct)) %>%
+  knitr::kable(digits = 3)
+
+
+```
+
+Plot by condition
+```{r plot overall}
+
+p1 <- d %>%
+  filter(trial_type == "test") %>%
+  group_by(control, id) %>%
+  summarise(correct = mean(correct)) 
+
+p2 <- p1 %>%
+  multi_boot_standard(col = "correct")
+
+
+ggplot() +
+  geom_jitter(data = p1, aes(x = control, y = correct, col = control, alpha = .2),width = .3,height = .025)+
+  geom_pointrange(data = p2, aes(x = control, y = mean, col = control, ymin = ci_lower, ymax = ci_upper),size = .8)+
+  geom_hline(yintercept = 0.5, lty=2)+
+  labs(x="",y="Proportion Expected Choice")+
+  theme_few() + 
+  ylim(-0.05,1.05)+
+  guides(alpha = F)+ 
+  theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
+  scale_colour_solarized(name="Condition",
+                     breaks=c("no", "yes"),
+                     labels=c("Test", "Control"))
+```
+
+```{r tests against chance}
+
+## one sample bayesian t-tests
+library(BayesFactor)
+
+
+d %>%
+  filter(trial_type == "test") %>%
+  group_by(control, id) %>%
+  summarise(correct = mean(correct)) %>%
+  summarise(correct = list(correct)) %>%
+  group_by(control) %>%
+  mutate(mean= mean(unlist(correct)),
+         bf = extractBF(ttestBF(unlist(correct), mu = 0.5))$bf) %>%
+  select(control,mean,bf) %>%
+  knitr::kable(digits = 3)
+ 
+```
+
+Brm Model.
+
+```{r model, include = FALSE}
+## model
+library(brms)
+
+data <- d%>%
+  filter(trial_type == "test")
+
+# registered  model
+bm <- brm(correct ~ control +
+              (control |id) + (control |agent), 
+          data = data, family = bernoulli(),
+          control = list(adapt_delta = 0.99),
+          iter = 2000)
+
+
+
+
+```
+
+```{r}
+summary(bm)
+```
+
+
+Effect of target object location on table. Inner = closer to the agent, outer = further away. 
+Effect usually stronger for inner compared to outer, this time it seems to be the other way around.
+```{r inner vs outer location}
+## performance in training and test
+ms <- d %>%
+  filter(trial_type == "test") %>%
+  group_by(targetOnTable,control, id) %>%
+  summarise(correct = mean(correct)) %>%
+  multi_boot_standard(col = "correct")
+
+ggplot(ms, 
+       aes(x = control, y = mean, fill = control,frame = targetOnTable)) +
+  geom_bar(stat="identity") + 
+  geom_linerange(aes(ymin = ci_lower, ymax = ci_upper)) + 
+  geom_hline(yintercept = 0.5, lty=2)+
+  facet_wrap(~ targetOnTable) +
+  labs(x="",y="Proportion Expected Choice")+
+  theme_few(base_size = 12) +
+  ylim(0,1)+
+  theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
+  scale_fill_solarized(name="Condition",
+                     breaks=c("look", "lookLabel","point","pointLabel"),
+                     labels=c("Look", "Look + Label","Point","Point + Label"))
+
+```
+
+Condition by trial overall. Looks pretty random.
+```{r plot trials}
+ms <- d %>%
+  filter(trial_type == "test") %>%
+  group_by(control, trial, id) %>%
+  summarise(correct = mean(correct)) %>%
+  multi_boot_standard(col = "correct")
+
+ggplot(ms, 
+       aes(x = trial, y = mean, col = control)) +
+  geom_line(aes(group= control)) + 
+  geom_pointrange(aes(ymin = ci_lower, ymax = ci_upper), 
+                  position = position_dodge(width = .1)) + 
+  geom_hline(yintercept = 0.5, lty=2)+
+  theme_few() + 
+  scale_colour_solarized()
+```
+
+
+
+

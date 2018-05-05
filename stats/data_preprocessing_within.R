@@ -4,7 +4,7 @@ library(tidyr)
 library(stringr)
 library(dplyr)
 library(data.table)
-library("stringr")
+
 
 
 ##
@@ -16,12 +16,12 @@ setwd("~/Work/CueStrength/git/stats/")
 
 # select all files from individual workers
 
-files <- dir("~/Work/CueStrength/nosub_unintentional_tornado/production-results/")
+files <- dir("~/Work/CueStrength/nosub_unintentional_tornado_between/sandbox-results/")
 
 #combine files into one dataframe
 raw <- data.frame()
 for (f in files) {
-  jf <- paste("~/Work/CueStrength/nosub_unintentional_tornado/production-results/",f,sep="")
+  jf <- paste("~/Work/CueStrength/nosub_unintentional_tornado_between/sandbox-results/",f,sep="")
   
   jd <- fromJSON(paste(readLines(jf), collapse=""))
   id <- data.frame(workerid = jd$WorkerId, 
