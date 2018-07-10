@@ -11,6 +11,7 @@ library(tidyverse)
 library(knitr)
 library(langcog)
 library(ggthemes)
+library(viridis)
 
 
 ## importing data
@@ -41,7 +42,30 @@ d2 <- bind_rows(read_csv(file="cue_unintentional_bell.data.csv"),
          design = "Within") %>%
   mutate(condition2 = paste(experiment,control,sep="_"))
 
-d <- bind_rows(d1,d2)
+
+d3 <- bind_rows(read_csv(file="cue_unintentional_tornado_between.data.csv"),
+                read_csv(file="cue_unintentional_between.data.csv"))%>%
+  mutate(trial_type = ifelse(trial == "train", "train", "test"),
+         condition = ifelse(control == "no","lookLabel","tornado"),
+         phase = "Intentional Control",
+         design = "Between") %>%
+  mutate(condition2 = ifelse(control == "no", "cue_strength_unintentional_tornado_no","cue_strength_unintentional_tornado_yes"))
+
+d <- bind_rows(d1,d2,d3)
+
+(3730 - 3399) / 3730
+# exclude those who did both experiments
+# keep first time they participated
+
+d <- d %>% 
+  distinct(id, alltrial, .keep_all = TRUE)
+
+# check number of subjects per experiment
+
+d %>%
+  filter(trial_type == "test") %>%
+  group_by(condition2, design ,phase) %>%
+  summarise(n = length(unique(id))) 
 
 ```
 
@@ -67,12 +91,12 @@ ggplot() +
   facet_grid(design ~ phase , scales = "free_x", space = "free_x" ) +
   theme_few(base_size = 12) + 
   ylim(-0.05,1.05)+
+  ggtitle("Excluding subjects who participated more than once")+
   theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
   guides(alpha = F)+
-  scale_color_solarized(name="Condition",
+  scale_color_viridis(name="Condition",
                      breaks=c("look", "lookLabel","point", "pointLabel","abs", "bar","bell","person","tornado"),
-                     labels=c("Test - Look", "Test - Look + Label", "Test - Point", "Test - Point + Label","Control - Later", "Control - Barrier", "Control - Bell", "Control - Person", "Control - Tornado"))
-
+                     labels=c("Test - Look", "Test - Look + Label", "Test - Point", "Test - Point + Label","Control - Later", "Control - Barrier", "Control - Bell", "Control - Person", "Control - Tornado"), discrete = TRUE)
 
 ```
 

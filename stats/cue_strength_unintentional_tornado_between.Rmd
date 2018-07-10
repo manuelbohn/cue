@@ -1,7 +1,7 @@
 ---
-title: "CueStrength unintentional tornado"
+title: "CueStrength unintentional between (tornado)"
 author: "Manuel Bohn"
-date: "17 3 2018"
+date: "5 5 2018"
 output: html_document
 ---
 
@@ -19,20 +19,28 @@ library(ggthemes)
 Sanity checks.
 ```{r}
 ## importing data
-d <- read_csv(file="cue_unintentional_tornado_between.data.csv")%>%
+d <- bind_rows(read_csv(file="cue_unintentional_tornado_between.data.csv"),
+                read_csv(file="cue_unintentional_between.data.csv"))%>%
   mutate(trial_type = ifelse(trial == "train", "train", "test"))
 
 # check if someone needs to be excluded because wrong in training
-# one person -> exclude
+# none
 
-x <- d %>%
+d %>%
   filter(trial_type == "train") %>%
   group_by(id)%>%
   summarise(correct = mean(correct)) %>%
   filter(correct == 0)
 
-d <- d %>%
-  filter(!id %in% x$id)
+# check if someone participated twice
+# no
+
+d %>%
+  filter(trial_type == "train") %>%
+  group_by(id)%>%
+  summarise(n = length(correct)) %>%
+  filter(n > 2)
+
 
 ## performance in training and test
 d %>%
@@ -100,7 +108,7 @@ data <- d%>%
 
 # registered  model
 bm <- brm(correct ~ control +
-              (control |id) + (control |agent), 
+              (1 |id) + (control |agent), 
           data = data, family = bernoulli(),
           control = list(adapt_delta = 0.99),
           iter = 2000)
@@ -115,8 +123,7 @@ summary(bm)
 ```
 
 
-Effect of target object location on table. Inner = closer to the agent, outer = further away. 
-Effect usually stronger for inner compared to outer, this time it seems to be the other way around.
+Effect of target object location on table.
 ```{r inner vs outer location}
 ## performance in training and test
 ms <- d %>%
