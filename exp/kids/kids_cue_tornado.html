@@ -4,7 +4,7 @@
 <head>
 	<title>Learning words from animals</title>
 	<script src="jquery-1.11.2.min.js"></script>
-	<script src="mmturkey.js"></script>
+	<script src="mmturkey_cue.js"></script>
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
@@ -40,7 +40,7 @@
 
         <br><br>
 		<center>
-            <button type="button" onClick="this.blur(); showSlide('training')">Start touch training</font></button>
+            <button type="button" onClick="this.blur(); experiment.checkInput()">Start touch training</font></button>
         <div id="checkMessage"> </div>
         </center>
 	</div>
@@ -140,7 +140,7 @@
                             <img src="images/table_l.png" style="position:absolute; TOP:390px; LEFT:340px; WIDTH:143px">
                         </td>
 						<td>
-                       <startButton type="button" onClick="this.blur(); showSlide('intro');move()">My volume is turned up and I am 
+                       <startButton type="button" onClick="this.blur(); showSlide('intro')">My volume is turned up and I am 
                 ready to begin</startButton>
                         </td>
 						<td>
@@ -248,7 +248,7 @@
 			</table>
 		</div>
         <div align="center" width="500px">
-         <button type="button" onClick="this.blur(); experiment.next();move()">Start game</button>
+         <button type="button" onClick="this.blur(); experiment.next()">Start game</button>
 	   </div>
     </div>
     
@@ -564,19 +564,15 @@
        
     
 	<!-- The finish slide. -->
-		<div class="slide" id="finished">
-        
-        <p class="block-text">You're finished - thanks for participating</p> 
-        
-        <p class="block-text">
-        In this experiment we wanted to find out if people think that others are communicating about things that are less frequent.</p>
-        
-        <p class="block-text">Submitting to Mechanical Turk...</p>
+	<div class="slide" id="finished">
+		<div style="width: 500px; margin: 0 auto; text-align: center; ">	
+		</div>
+        <br><br>
+        <center>
+        <p id='logo-text'>Thank you for participating!</p>
+        </center>
 	</div>
 
-	<!-- Include the <a href="experiment.html">JavaScript file for the experiment</a>. As written, that script immediately executes commands, so we include it here at the end of the HTML file to ensure that resources referenced by the script actually exist. For instance, one of the immediately executed commands is <code>showSlide("instructions")</code>. If we loaded experiment.js, say, in the <code>head</code> section, <code>showSlide("instructions")</code> would fail because the <code>instructions</code> slide doesn't exist yet. It is possible to load the script in <code>head</code> but you have to ensure that any immediately executed commands, if they rely on potentially uninitialized HTML elements, are _delayed_ until the page is ready, using either [window.onload][onload] or jQuery's more robust [$(document).ready()][domReady]  -->
-	<!-- [onload]: https://developer.mozilla.org/en/DOM/window.onload -->
-	<!-- [domReady]: http://api.jquery.com/ready/ -->
 	<script src="kids_cue_tornado.js"></script>
 
 </body>

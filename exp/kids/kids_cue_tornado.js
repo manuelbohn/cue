@@ -1,3 +1,23 @@
+// preload
+var preFruits = ["duck.png","car.png","bear.png","ball.png","t1.png", "t2.png", "t3.png", "t4.png", "t5.png", "t6.png", "t7.png", "t8.png", "t9.png", "t10.png", "t11.png", "t12.png", "t13.png", "t14.png", "t15.png", "t16.png", "t17.png", "t18.png","back1.jpg","back2.jpg","back3.jpg","empty.png"];
+//for critical trials and fillers
+var images = new Array();
+for (i = 0; i < preFruits.length; i++) {
+	images[i] = new Image();
+	images[i].src = "images/" + preFruits[i];
+    images[i].id = preFruits[i];
+}
+
+
+var preSounds = ["Frog_choice.mp3", "Mouse_choice.mp3", "Bear_choice.mp3", "Beaver_choice.mp3", "Monkey_choice.mp3", "Dog_choice.mp3", "Cat_choice.mp3", "Bunny_choice.mp3", "Tiger_choice.mp3", "Sheep_choice.mp3","Pig_choice.mp3","Pig_train.mp3","Elephant_train.mp3","Frog_hello.mp3", "Mouse_hello.mp3", "Bear_hello.mp3", "Monkey_hello.mp3", "Dog_hello.mp3", "Cat_hello.mp3", "Bunny_hello.mp3", "Tiger_hello.mp3", "Sheep_hello.mp3","Pig_hello.mp3","Elephant_hello.mp3", "Beaver_hello.mp3","end.mp3","Frog_torn.mp3", "Mouse_torn.mp3", "Bear_torn.mp3", "Monkey_torn.mp3", "Dog_torn.mp3", "Cat_torn.mp3", "Bunny_torn.mp3", "Tiger_torn.mp3", "Sheep_torn.mp3","Pig_torn.mp3","Elephant_torn.mp3", "Beaver_torn.mp3"];
+//for critical trials and fillers
+var sound = new Array();
+for (i = 0; i < preSounds.length; i++) {
+	sound[i] = new Audio();
+	sound[i].src = "sound/" + preSounds[i];
+    sound[i].id = preSounds[i];
+}
+
 
 // ## Helper functions
 function showSlide(id) {
@@ -165,13 +185,6 @@ function shuffle(array) {
 }
 
 
-function sourceSound(c) {
-        document.getElementById("sound").src=c;
-    };
-function playSound() {
-    document.getElementById("sound").play();
-      };
-
 
 
   function pause(id,time){
@@ -190,49 +203,6 @@ $("#button").click(function() {
       alert("Please accept HIT to view");
     } else {
       showSlide('training')
-    }
-});
-
-// Progress bar
-
-$("#progressbar").progressbar();
-$("#progressbar").progressbar( "option", "max", 12);
-
-// move progress bar
-
-function move() {
-	$("#progressbar").progressbar("option", "value", 
-        ($("#progressbar").progressbar( "option", "value")+1));
-}
-
-// preloading images and sounds
-// images
-
-var folder = "images/";
-
-$.ajax({
-    url : folder,
-    success: function (data) {
-        $(data).find("a").attr("href", function (i, val) {
-            if( val.match(/\.(png)$/) ) { 
-                $("preload").append( "<img src='"+ folder + val +"'>" );
-            } 
-        });
-    }
-});
-
-// sound
-
-var folder2 = "sound/";
-
-$.ajax({
-    url : folder2,
-    success: function (data) {
-        $(data).find("a").attr("href", function (i, val) {
-            if( val.match(/\.(mp3)$/) ) { 
-                $("body").append( "<audio src='"+ folder2 + val +"'>" );
-            } 
-        });
     }
 });
 
@@ -339,7 +309,7 @@ checkInput: function() {
   end: function() {
     // Show the finish slide.
     showSlide("finished");
-    setTimeout(function() { turk.submit(experiment) }, 8000);
+    setTimeout(function() { turk.submit(experiment) }, 500);
   },
     
    endTraining: function() {
@@ -349,16 +319,31 @@ checkInput: function() {
 // what happens between trials - display agent from previous trial and click on it to move on to the next trial    
    eat: function(event) {
 
-    showSlide("eat");
+       setTimeout(function() {experiment.eat2() }, 1500);
        
-    background("images/back"+back[0]+".jpg");
+       showSlide("choice");  
+         
+       event.target.style.border = '5px solid blue';
+       
+       background("images/back"+back[0]+".jpg");
     
-    sourceSound("sound/end.mp3");
-    playSound();
-   
-    showEat(agents[0])
-   
-    $("#continue").text("Click on the animal to continue")
+       if (experiment.trial[0] == "train1" || experiment.trial[0] == "train2"){
+           sound.find(function (obj){return obj.id == agents[0]+"_train.mp3"}).pause();
+        sound.find(function (obj){return obj.id == "end.mp3"}).play()
+        
+       } else {
+       
+           sound.find(function (obj){return obj.id ==  agents[0]+"_choice.mp3"}).pause();
+        sound.find(function (obj){return obj.id == "end.mp3"}).play()
+
+       }
+
+    $(".fruit_r").unbind("click");
+    $(".fruit_l").unbind("click");
+    $(".fruit_r2").unbind("click");
+    $(".fruit_l2").unbind("click"); 
+
+
     
     // get time for reaction time
     var endTime = (new Date()).getTime();    
@@ -399,13 +384,14 @@ checkInput: function() {
     };
    
         
-       
+       var subid = experiment.subid; 
+       var subage = experiment.subage;  
       
     // data collected  
       data = {
-        experiment: "cue_strength_unintentional_tornado",
+        experiment: "cue_controls_tornado",
         trial: trial[0],
-        cond: cond[0],
+        cue: cond[0],
         control: control[0],
         agent: agents[0],
         leftFruit: leftFruit[0],
@@ -417,22 +403,33 @@ checkInput: function() {
         rt: endTime - startTime,
             };
       experiment.data.push(data);
-        
-     $(".agent_eat").bind("click", experiment.newtrial);     
+           
   },
+
+eat2: function(event) {
+    
+    showSlide("eat");
+    
+    background("images/back"+back[0]+".jpg");
+
+   
+    showEat(agents[0])
+   
+    $(".agent_eat").click(experiment.newtrial);     
+  
+},    
     
 // unbind and shif variables between trials      
  newtrial: function() {
     
-    $(".agent_eat").unbind("click"); 
-    $(".fruit_r").unbind("click");
-    $(".fruit_l").unbind("click");
-    $(".fruit_r2").unbind("click");
-    $(".fruit_l2").unbind("click");
-    $("#text").text("");
-    $("#text2").text("");
-    $("#text3").text("");
-   
+     
+    $(".fruit_l").css("border","none")
+    $(".fruit_l2").css("border","none")
+    $(".fruit_r").css("border","none")
+    $(".fruit_r2").css("border","none") 
+     
+     $(".agent_eat").unbind("click"); 
+
     sourceLeftFruit("images/empty.png");
             showLeftFruit(); 
     sourceRightFruit("images/empty.png");
@@ -463,11 +460,8 @@ checkInput: function() {
      
    
   
-//    
-//     $("#"+agents[0]+"_straight").css({width: "280px", left: "380px", bottom:"450px", queue: false, duration:0}); 
-//     
-// move progress bar 
-   move()    
+
+
    experiment.next();
   },
 
@@ -497,8 +491,7 @@ checkInput: function() {
     if (experiment.trial[0] == "train1"){
         showAgent(agents[0],"look_choice_l");
         
-        sourceSound("sound/"+agents[0]+"_train.mp3");
-        playSound(); 
+       sound.find(function (obj){return obj.id == agents[0]+"_train.mp3"}).play()
     
         
         choiceLeftFruit("images/"+leftFruit[0]+".png");
@@ -510,8 +503,7 @@ checkInput: function() {
         } else if (experiment.trial[0] == "train2"){
         showAgent(agents[0],"look_choice_r");
         
-        sourceSound("sound/"+agents[0]+"_train.mp3");
-        playSound();     
+       sound.find(function (obj){return obj.id == agents[0]+"_train.mp3"}).play()    
             
         choiceLeftFruit("images/empty.png");
         choiceLeftFruit2("images/"+leftFruit[0]+".png");
@@ -527,8 +519,7 @@ checkInput: function() {
                   
                    showAgent(agents[0],"look_choice_l");
                        // play choice sound
-                    sourceSound("sound/"+agents[0]+"_choice.mp3");
-                    playSound(); 
+                    sound.find(function (obj){return obj.id == agents[0]+"_choice.mp3"}).play()
             
                     choiceLeftFruit("images/"+experiment.fruitPosition[0]+".png");
                     choiceLeftFruit2("images/"+experiment.fruitPosition.filter(function(x) { return x !== experiment.fruitPosition[0]; })+".png");
@@ -541,8 +532,7 @@ checkInput: function() {
                 
                     showAgent(agents[0],"look_choice_r");
                        // play choice sound
-                    sourceSound("sound/"+agents[0]+"_choice.mp3");
-                    playSound(); 
+                    sound.find(function (obj){return obj.id == agents[0]+"_choice.mp3"}).play()
         
 
                     choiceLeftFruit("images/empty.png");
@@ -559,8 +549,7 @@ checkInput: function() {
                     
                     showAgent(agents[0],"point_l")
                        // play choice sound
-                    sourceSound("sound/"+agents[0]+"_choice.mp3");
-                    playSound(); 
+                    sound.find(function (obj){return obj.id == agents[0]+"_train.mp3"}).play()
         
                     choiceLeftFruit("images/"+experiment.fruitPosition[0]+".png");
                     choiceLeftFruit2("images/"+experiment.fruitPosition.filter(function(x) { return x !== experiment.fruitPosition[0]; })+".png");
@@ -576,8 +565,7 @@ checkInput: function() {
                     
                     showAgent(agents[0],"point_r")
                     
-                    sourceSound("sound/"+agents[0]+"_choice.mp3");
-                    playSound(); 
+                    sound.find(function (obj){return obj.id == agents[0]+"_choice.mp3"}).play()
                     
                     choiceLeftFruit("images/empty.png");
                     choiceLeftFruit2("images/empty.png");
@@ -671,7 +659,7 @@ if(experiment.cond[0] == "pointLabel" ||
                     $(".fruit_r2").bind("click", experiment.eat);
                 };
             };
-        }, 0000)   
+        }, 5000)   
     } else {
         if (experiment.inf[0] == "left") {
                 $(".fruit_l").bind("click", experiment.eat);
@@ -734,8 +722,9 @@ if(experiment.cond[0] == "pointLabel" ||
     // play hello sound and write name of agent
    if (experiment.agentOrient[0][0] == "straight") { 
         pause("next",2000); 
-        sourceSound("sound/"+agents[0]+"_hello.mp3");
-        playSound();
+       
+      sound.find(function (obj){return obj.id == agents[0]+"_hello.mp3"}).play()
+       
         $("#text").text("");
     }; 
      
@@ -811,8 +800,7 @@ if(experiment.cond[0] == "pointLabel" ||
         if (experiment.control[0] == "yes" && experiment.inf[0] == "right"){
 
       setTimeout(function() {              
-            sourceSound("sound/"+agents[0]+"_torn.mp3");
-            playSound();   
+            sound.find(function (obj){return obj.id == agents[0]+"_torn.mp3"}).play()   
            },500);
             
             pause("next",3000); 
@@ -871,8 +859,7 @@ if(experiment.cond[0] == "pointLabel" ||
             
             
          setTimeout(function() {              
-            sourceSound("sound/"+agents[0]+"_torn.mp3");
-            playSound();   
+            sound.find(function (obj){return obj.id == agents[0]+"_torn.mp3"}).play()  
            },500);  
             
             pause("next",3000); 
@@ -911,14 +898,14 @@ if(experiment.cond[0] == "pointLabel" ||
             }, 1450);
         
             setTimeout(function() {
-                showAgent(agents[0],"look_l");
+                showAgent(agents[0],"look_r");
                 $("#"+agents[0]+"_look_r").animate({width: "160px", left: "400px", bottom:"400px",opacity: '0.5', queue: false},250);
                 $("#"+agents[0]+"_look_r").animate({width: "180px", left: "460px", bottom:"320px",opacity: '1', queue: true},250)   
             }, 1900); 
       
             setTimeout(function() {
                 showAgent(agents[0],"look_l");
-                $("#"+agents[0]+"_look_l").animate({width: "160px", left: "420px", bottom:"340px",opacity: '0.5', queue: false},250);
+                $("#"+agents[0]+"_look_l").animate({width: "160px", left: "400px", bottom:"340px",opacity: '0.5', queue: false},250);
                 $("#"+agents[0]+"_look_l").animate({width: "180px", left: "430px", bottom:"320px",opacity: '1', queue: true},250)   
             }, 2350); 
             

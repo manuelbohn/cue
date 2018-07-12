@@ -307,7 +307,7 @@ checkInput: function() {
   end: function() {
     // Show the finish slide.
     showSlide("finished");
-    setTimeout(function() { turk.submit(experiment) }, 8000);
+    setTimeout(function() { turk.submit(experiment) }, 500);
   },
     
    endTraining: function() {
@@ -317,10 +317,11 @@ checkInput: function() {
 // what happens between trials - display agent from previous trial and click on it to move on to the next trial    
    eat: function(event) {
 
-    showSlide("eat");
+    setTimeout(function() {experiment.eat2() }, 1500);
        
-    background("images/back"+back[0]+".jpg");
-    
+    showSlide("choice");  
+       
+    event.target.style.border = '5px solid blue';
     
        if (experiment.trial[0] == "train1" || experiment.trial[0] == "train2"){
            sound.find(function (obj){return obj.id == agents[0]+"_train.mp3"}).pause();
@@ -332,9 +333,11 @@ checkInput: function() {
         sound.find(function (obj){return obj.id == "end.mp3"}).play()
 
     }
-
-   
-    showEat(agents[0])
+       
+    $(".fruit_r").unbind("click");
+    $(".fruit_l").unbind("click");
+    $(".fruit_r2").unbind("click");
+    $(".fruit_l2").unbind("click"); 
 
     
     // get time for reaction time
@@ -375,14 +378,15 @@ checkInput: function() {
             };
     };
    
-        
+       var subid = experiment.subid; 
+       var subage = experiment.subage; 
        
       
     // data collected  
       data = {
-        experiment: "cue_strength_controls_barrier",
+        experiment: "cue_controls_barrier",
         trial: trial[0],
-        cond: cond[0],
+        cue: cond[0],
         control: control[0],
         agent: agents[0],
         leftFruit: leftFruit[0],
@@ -394,19 +398,30 @@ checkInput: function() {
         rt: endTime - startTime,
             };
       experiment.data.push(data);
-        
-     $(".agent_eat").bind("click", experiment.newtrial);     
+            
   },
+ 
+eat2: function(event) {
     
+    showSlide("eat");
+    
+    background("images/back"+back[0]+".jpg");
+
+   
+    showEat(agents[0])
+   
+    $(".agent_eat").click(experiment.newtrial);     
+  
+}, 
 // unbind and shif variables between trials      
  newtrial: function() {
     
+  $(".fruit_l").css("border","none")
+    $(".fruit_l2").css("border","none")
+    $(".fruit_r").css("border","none")
+    $(".fruit_r2").css("border","none") 
+     
     $(".agent_eat").unbind("click"); 
-    $(".fruit_r").unbind("click");
-    $(".fruit_l").unbind("click");
-    $(".fruit_r2").unbind("click");
-    $(".fruit_l2").unbind("click");
-
    
     sourceLeftFruit("images/empty.png");
             showLeftFruit(); 
@@ -671,7 +686,7 @@ if(experiment.cond[0] == "pointLabel" ||
                     $(".fruit_r2").bind("click", experiment.eat);
                 };
             };
-        }, 000)   
+        }, 5000)   
     } else {
         if (experiment.inf[0] == "left") {
                 $(".fruit_l").bind("click", experiment.eat);
