@@ -53,7 +53,6 @@ d3 <- bind_rows(read_csv(file="cue_unintentional_tornado_between.data.csv"),
 
 d <- bind_rows(d1,d2,d3)
 
-(3730 - 3399) / 3730
 # exclude those who did both experiments
 # keep first time they participated
 
@@ -98,37 +97,24 @@ ggplot() +
                      breaks=c("look", "lookLabel","point", "pointLabel","abs", "bar","bell","person","tornado"),
                      labels=c("Test - Look", "Test - Look + Label", "Test - Point", "Test - Point + Label","Control - Later", "Control - Barrier", "Control - Bell", "Control - Person", "Control - Tornado"), discrete = TRUE)
 
-```
 
 
 
-
-
-```{r plot overall}
-
-ms <- d %>%
-  filter(trial_type == "test") %>%
-  group_by(condition ,design, id) %>%
-  summarise(correct = mean(correct)) 
-
-ms2 <- ms %>%
-  multi_boot_standard(col = "correct")
-
-
-ggplot() +
-  geom_jitter(data = ms, aes(x = condition, y = correct, col = condition, alpha = .2), width = .2,height = .015)+
-  geom_pointrange(data = ms2,aes(x = condition, y = mean, col = condition,ymin = ci_lower, ymax = ci_upper), 
-                  position = position_dodge(width = .5), size = 1)+
+ggplot(ms2, 
+       aes(x = condition2, y = mean, fill = condition)) +
+  geom_bar(stat="identity") + 
+  geom_linerange(aes(ymin = ci_lower, ymax = ci_upper)) + 
   geom_hline(yintercept = 0.5, lty=2)+
   labs(x="",y="Proportion Expected Choice")+
-  facet_grid( design ~ . , scales = "free_x", space = "free_x" ) +
+  facet_grid(design ~ phase , scales = "free_x", space = "free_x" ) +
   theme_few(base_size = 12) + 
   ylim(-0.05,1.05)+
+  ggtitle("Excluding subjects who participated more than once")+
   theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
   guides(alpha = F)+
-  scale_color_solarized(name="Condition",
-                     breaks=c("abs", "bar","look", "lookLabel","point", "pointLabel"),
-                     labels=c("Control - Later", "Control - Barrier","Test - Look", "Test - Look + Label", "Test - Point", "Test - Point + Label"))
+  scale_color_viridis(name="Condition",
+                     breaks=c("look", "lookLabel","point", "pointLabel","abs", "bar","bell","person","tornado"),
+                     labels=c("Test - Look", "Test - Look + Label", "Test - Point", "Test - Point + Label","Control - Later", "Control - Barrier", "Control - Bell", "Control - Person", "Control - Tornado"), discrete = TRUE)
 
 ```
 
@@ -174,9 +160,9 @@ ggplot(ms,
   theme_few(base_size = 12) + 
   ylim(0,1)+
   theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
-  scale_fill_solarized(name="Condition",
+  scale_fill_viridis(name="Condition",
                      breaks=c("abs", "bar","look", "lookLabel","point", "pointLabel"),
-                     labels=c("Control - Later", "Control - Barrier","Test - Look", "Test - Look + Label", "Test - Point", "Test - Point + Label"))
+                     labels=c("Control - Later", "Control - Barrier","Test - Look", "Test - Look + Label", "Test - Point", "Test - Point + Label"), discrete = T)
 ```
 
 

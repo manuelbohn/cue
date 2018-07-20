@@ -19,6 +19,7 @@ for (i = 0; i < preSounds.length; i++) {
     sound[i].id = preSounds[i];
 }
 
+
 // ## Helper functions
 function showSlide(id) {
   // Hide all slides
@@ -266,6 +267,9 @@ checkInput: function() {
   end: function() {
     // Show the finish slide.
     showSlide("finished");
+      
+    document.getElementById("maus").play()  
+      
     setTimeout(function() { turk.submit(experiment) }, 500);
   },
     

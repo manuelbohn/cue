@@ -11,10 +11,11 @@ library(tidyverse)
 library(knitr)
 library(langcog)
 library(ggthemes)
+library(ggthemes)
 
 
 ## importing data
-d <- read_csv(file="cue.data.csv") %>%
+d <- read_csv(file="cue_within.data.csv") %>%
   mutate(trial_type = ifelse(trial == "train", "train", "test"))
 
 ```
@@ -178,35 +179,60 @@ d %>%
  
 ```
 
-Brm Model. It's the first time I run a Bayesian model, so I'm not sure how to properly tweak the settings. Whatever I do, I get the following error message:
-
-"The model has not converged (some Rhats are > 1.1). Do not analyse the results! 
-We recommend running more iterations and/or setting stronger priors"
-
-I did run more iterations and also adjusted the delta level. There are some changes in the fixed effects depending on the settings.
-
-Model output with 10 times the iterations and higher delta is pasted below.
-
-In any case, the output reflects what we see in the graph: No difference between conditions (here look is the reference level).
+Brm Model.
 
 ```{r model}
 ## model
 library(brms)
 
 data_inf <- d%>%
-  filter(trial == "test")%>%
-  mutate(trial = scale(as.numeric(trial), center = TRUE, scale=FALSE))
+  filter(trial_type == "test")
+
+
+prior <- get_prior(correct ~ condition +
+                      (condition |id) + (condition |agent),
+                    data = data_inf, family = bernoulli()) 
 
 # registered  model
 bm <- brm(correct ~ condition +
               (condition |id) + (condition |agent), 
           data = data_inf, family = bernoulli(),
-          control = list(adapt_delta = 0.80),
+          control = list(adapt_delta = 0.90),
+          sample_prior = T,
+          prior = prior,
           iter = 2000)
 
 summary(bm)
 
 
+# model with default priors
+
+#Population-Level Effects: 
+#                    Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
+#Intercept               1.86      0.36     1.22     2.62       2190 1.00
+#conditionlookLabel      0.04      0.50    -0.88     1.09       1851 1.00
+#conditionpoint          0.51      1.24    -0.95     3.86        160 1.03
+#conditionpointLabel     0.21      0.65    -0.84     1.75       1194 1.00
+
+# model with priors from get priors
+
+#Population-Level Effects: 
+#                    Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
+#Intercept               1.85      0.36     1.17     2.61       2811 1.00
+#conditionlookLabel      0.03      0.50    -0.87     1.12       1886 1.00
+#conditionpoint          0.28      0.83    -0.93     2.35        928 1.00
+#conditionpointLabel     0.22      0.66    -0.86     1.81       1313 1.00
+
+
+h <- c("conditionlookLabel - conditionpoint > 0 ","conditionpointLabel - conditionlookLabel > 0","conditionpointLabel - conditionpoint > 0")
+
+a <- hypothesis(bm, h,alpha = 0.05)
+
+p <- plot(a, plot = F, theme = theme_get())[[1]]
+
+p +
+  xlim(-5,5)+
+  theme_few()
 ```
 
 ```{r}
@@ -223,21 +249,37 @@ summary(bm)
 
 
 ```{r bayes factor, include = FALSE}
-# out of curiosity
-# computing a bayes factor for condition
-# gives a warning: "logml could not be estimated within maxiter, rerunning with adjusted starting value. 
-# Estimate might be more variable than usual".
-# BF is pretty different each time I run it
+
+
+full <- brm(correct ~ condition +
+              (condition |id) + (condition |agent), 
+          data = data_inf, family = bernoulli(),
+          control = list(adapt_delta = 0.90),
+          save_all_pars = TRUE,
+          sample_prior = F,
+          prior = prior,
+          iter = 2000)
 
 # null model
-# null <- brm(correct ~ 1 +
-#               (condition |id) + (condition |agent), 
-#           data = data_inf, family = bernoulli(),
-#           save_all_pars = TRUE,
-#           iter = 2000)
-# 
-# bf <- bayes_factor(bm, null)
-# bf
+
+prior2 <- get_prior(correct ~ 1 +
+                      (condition |id) + (condition |agent),
+                    data = data_inf, family = bernoulli()) 
+
+null <- brm(correct ~ 1 +
+               (condition |id) + (condition |agent), 
+           data = data_inf, family = bernoulli(),
+           control = list(adapt_delta = 0.90),
+           save_all_pars = TRUE,
+           sample_prior = F,
+           prior = prior2,
+           iter = 2000)
+ 
+
+ bf <- bayes_factor(full, null, log = FALSE, maxiter = 1000)
+
+
+
 
 ```
 
