@@ -156,19 +156,19 @@ nextButton[disabled] {
 
 .barrier_l {
     position: absolute;
-    bottom: 10px;
+    bottom: 68px;
     left: 45px;
     width: 340px;
-    height: 450;
+    height: 400;
     z-index: 2
 }
 
 .barrier_r {
     position: absolute;
-    bottom: 10px;
+    bottom: 68px;
     left: 630px;
     width: 340px;
-    height: 450;
+    height: 400;
     z-index: 2
 }
 
@@ -176,20 +176,20 @@ nextButton[disabled] {
 
 .barrier_lc {
     position: absolute;
-    bottom: 10px;
+    bottom: 68px;
     left: 45px;
     width: 340px;
-    height: 450;
+    height: 400;
     z-index: 2
 }
 
 
 .barrier_rc {
     position: absolute;
-    bottom: 10px;
+    bottom: 68px;
     left: 630px;
     width: 340px;
-    height: 450;
+    height: 400;
     z-index: 2
 }
 

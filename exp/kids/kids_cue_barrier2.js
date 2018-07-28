@@ -485,7 +485,7 @@ eat2: function(event) {
                     showAgent(agents[0],"choice")
                    
                                       
-                    $("#"+agents[0]+"_choice").animate({left: 65, bottom: 210,width: 280,  queue: false},1000);
+                    $("#"+agents[0]+"_choice").animate({left: 68, bottom: 210,width: 280,  queue: false},1000);
                     
                    choiceLeftFruit("images/"+experiment.fruitPosition[0]+".png");
                    choiceLeftFruit2("images/"+experiment.fruitPosition.filter(function(x) { return x !== experiment.fruitPosition[0]; })+".png");
