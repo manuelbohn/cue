@@ -125,7 +125,7 @@ nextButton[disabled] {
 
 .dis {
     position: absolute;
-    bottom: 230px;
+    bottom: 260px;
     left: 90px;
     width: 840px;
     z-index: -2
@@ -134,7 +134,7 @@ nextButton[disabled] {
 
 .agent {
     position: absolute;
-    bottom: 320px;
+    bottom: 340px;
     left: 420px;
     width: 180px;
 }

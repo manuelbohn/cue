@@ -367,7 +367,7 @@ var experiment = {
       data = {
         subid: subid,
         subage: subage,
-        condition: "cue_kids_barrier",
+        experiment: "cue_kids_barrier",
         trial: trial[0],
         control: control[0][0],
         agent: agents[0],
@@ -485,7 +485,9 @@ eat2: function(event) {
                     showAgent(agents[0],"choice")
                    
                                       
-                    $("#"+agents[0]+"_choice").animate({left: 68, bottom: 210,width: 280,  queue: false},1000);
+                    $("#"+agents[0]+"_choice").animate({left: 55, bottom: 280,width: 240,  queue: false},1000);
+                    
+                    $("#"+agents[0]+"_choice").animate({left: 55, bottom: 210,width: 280,  queue: true},500);
                     
                    choiceLeftFruit("images/"+experiment.fruitPosition[0]+".png");
                    choiceLeftFruit2("images/"+experiment.fruitPosition.filter(function(x) { return x !== experiment.fruitPosition[0]; })+".png");
@@ -500,7 +502,9 @@ eat2: function(event) {
                     
                     showAgent(agents[0],"choice")
                    
-                    $("#"+agents[0]+"_choice").animate({left: 678, bottom: 210,width: 280, queue: false},1000)
+                    $("#"+agents[0]+"_choice").animate({left: 678, bottom: 280,width: 240, queue: false},1000)
+                    
+                    $("#"+agents[0]+"_choice").animate({left: 678, bottom: 210,width: 280, queue: true},500)
                    
                     
                     choiceLeftFruit("images/"+leftFruit[0]+".png"); 
@@ -520,7 +524,7 @@ eat2: function(event) {
     } else {
         setTimeout(function() {
             sound.find(function (obj){return obj.id == agents[0]+"_choice.mp3"}).play()
-            }, 1100)
+            }, 1600)
         };
       
     // choice can be made by clicking the objects after - possible after 8s
@@ -539,7 +543,7 @@ eat2: function(event) {
                 $(".fruit_r2").click(experiment.eat);
             };
         };
-}, 5000);
+}, 000);
   },
         
 // moving on within a trial
