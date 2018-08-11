@@ -7,22 +7,26 @@ library(data.table)
 
 
 
-setwd("~/Work/CueStrength/git/stats/")
-
 files <- dir("~/Work/CueStrength/raw_data_kids")
 
-raw_data <- data_frame()
+raw <- data.frame()
 for (f in files) {
   jf <- paste("~/Work/CueStrength/raw_data_kids/",f,sep="")
   jd <- fromJSON(paste(readLines(jf), collapse=""))
-  id <- as_data_frame(jd$data$data)%>%
-    mutate(id = jd$data$subid,
-           agegroup = jd$data$subage,
-           pick = str_sub(jd$data$data$pick,58,str_length(jd$data$data$pick)-4))
-  raw_data <- bind_rows(raw_data, id)
+  id <- data.frame(test_date= jf, 
+                   data = jd$data$data
+  )
+  raw <- bind_rows(raw, id)
 }
 
-raw_data
+# convert into short format, drop unnecessary columns, rename variables and sort by id
+inf.data= melt(setDT(raw), measure = patterns( "^data.subid","^data.subage","^data.experiment","^data.trial","^data.control","^data.agent","^data.leftFruit","^data.rightFruit","^data.tablePositionCorr","^data.pick","^data.inf","^data.rt", "^data.correct"))
+names(inf.data) = c("test_date","alltrial","subid","age","condition","trial","control","agent","leftObject","rightObject","targetOnTable","pick","target","rt","correct") 
 
-write.csv(raw_data, file="kids_cue_barrier_data.csv")
+inf.data <- inf.data %>%
+  mutate(test_date = str_sub(test_date,42,str_length(test_date)-5),
+         pick = str_sub(pick,56,str_length(pick)-4),
+         trial_type = ifelse(trial == "train1" | trial == "train2", "train", "test"))
+
+write.csv(inf.data, file="kids_cue_barrier_data.csv")
 

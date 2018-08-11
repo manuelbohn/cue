@@ -1,0 +1,192 @@
+---
+title: "CueStrength kids control barrier"
+author: "Manuel Bohn"
+output: html_document
+---
+
+```{r setup}
+###
+library(tidyverse)
+library(knitr)
+library(langcog)
+library(ggthemes)
+
+
+## importing data
+d <- read_csv(file="kids_cue_barrier_data.csv") 
+
+d%>%
+  group_by(age)%>%
+  summarise(n = length(unique(test_date)))
+
+
+d%>%
+  group_by(trial_type, control,test_date)%>%
+  summarise(n = length(trial),
+            mean = mean(correct))
+
+
+
+```
+
+```{r plot overall}
+
+
+ms <- d %>%
+  filter(trial_type == "test") %>%
+  group_by(control, test_date) %>%
+  summarise(correct = mean(correct)) 
+
+ms2 <- ms %>%
+  multi_boot_standard(col = "correct")
+
+
+ggplot() +
+  geom_jitter(data = ms, aes(x = control, y = correct, col = control, alpha = .5), width = .3,height = .015)+
+  geom_pointrange(data = ms2,aes(x = control, y = mean, col = control,ymin = ci_lower, ymax = ci_upper), size = 1)+ 
+  geom_hline(yintercept = 0.5, lty=2)+
+  labs(x="",y="Proportion Expected Choice")+
+  theme_few(base_size = 12) + 
+  ylim(-0.05,1.05)+
+  guides(alpha = F)+
+  theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
+  scale_color_solarized(name="Condition",
+                     breaks=c("false", "true"),
+                     labels=c("Test", "Control - Barrier"))
+```
+
+
+```{r plot by age}
+
+
+ms <- d %>%
+  filter(trial_type == "test") %>%
+  group_by(control,age, test_date) %>%
+  summarise(correct = mean(correct)) 
+
+ms2 <- ms %>%
+  multi_boot_standard(col = "correct")
+
+
+ggplot() +
+  geom_jitter(data = ms, aes(x = control, y = correct, col = control, alpha = .5), width = .3,height = .015)+
+  geom_pointrange(data = ms2,aes(x = control, y = mean, col = control,ymin = ci_lower, ymax = ci_upper), size = 1)+ 
+  facet_wrap(~ age) +
+  geom_hline(yintercept = 0.5, lty=2)+
+  labs(x="",y="Proportion Expected Choice")+
+  theme_few(base_size = 12) + 
+  ylim(-0.05,1.05)+
+  guides(alpha = F)+
+  theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
+  scale_color_solarized(name="Condition",
+                     breaks=c("false", "true"),
+                     labels=c("Test", "Control - Barrier"))
+```
+
+```{r model}
+## model
+library(brms)
+
+
+# controls
+
+data_inf <- d %>%
+  filter(trial_type == "test") %>%
+  mutate(control  = as.factor(control))
+
+# registered  model
+bm <- brm(correct ~ control +
+              (control |subid) + (control |agent), 
+          data = data_inf, family = bernoulli(),
+          control = list(adapt_delta = 0.90),
+          iter = 5000)
+
+summary(bm)
+```
+
+
+Sanity checks.
+```{r training performance}
+## performance in training and test
+d %>%
+  group_by(trial_type,experiment) %>%
+  summarise(n = length(unique(id)), 
+            correct = mean(correct)) %>%
+  knitr::kable(digits = 3)
+
+```
+
+
+
+```{r inner vs outer location}
+## performance in training and test
+ms <- d %>%
+  filter(trial_type == "test") %>%
+  group_by(targetOnTable,control,experiment, id) %>%
+  summarise(correct = mean(correct)) %>%
+  multi_boot_standard(col = "correct")
+
+ggplot(ms, 
+       aes(x = control, y = mean, fill = control,frame = targetOnTable)) +
+  geom_bar(stat="identity") + 
+  geom_linerange(aes(ymin = ci_lower, ymax = ci_upper)) + 
+  geom_hline(yintercept = 0.5, lty=2)+
+  facet_wrap(targetOnTable~ experiment) +
+  labs(x="",y="Proportion Expected Choice")+
+  theme_few(base_size = 12) +
+  ylim(0,1)+
+  theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
+  scale_fill_solarized(name="Condition",
+                     breaks=c("abs", "bar","no"),
+                     labels=c("Control - Later", "Control - Barrier","Test"))
+
+```
+
+Condition by trial overall. Looks pretty random.
+```{r plot trials}
+ms <- d %>%
+  filter(trial_type == "test") %>%
+  group_by(control,experiment, trial, id) %>%
+  summarise(correct = mean(correct)) %>%
+  multi_boot_standard(col = "correct")
+
+ggplot(ms, 
+       aes(x = trial, y = mean, col = control)) +
+  geom_line(aes(group= control)) + 
+  facet_wrap(~ experiment) +
+  geom_pointrange(aes(ymin = ci_lower, ymax = ci_upper), 
+                  position = position_dodge(width = .1)) + 
+  geom_hline(yintercept = 0.5, lty=2)+
+  theme_few() + 
+  scale_colour_solarized()
+```
+
+Conditions by agents.
+```{r trials per condition and agent}
+# d %>%
+#   filter(trial_type == "test") %>%
+#   group_by(agent,condition) %>%
+#   summarise(n = length(agent), 
+#             correct = mean(correct)) %>%
+#   knitr::kable(digits = 2)
+```
+
+Agent effect. For whatever reason, they seem to think that Elephant, Frog and Monkey are particularly informative.
+```{r plot agents}
+ms <- d %>%
+  filter(trial_type == "test") %>%
+  group_by(control,experiment, agent, id) %>%
+  summarise(correct = mean(correct)) %>%
+  multi_boot_standard(col = "correct")
+
+ggplot(ms, 
+       aes(x = agent, y = mean, col = control)) +
+  geom_line(aes(group= control)) + 
+  geom_pointrange(aes(ymin = ci_lower, ymax = ci_upper), 
+                  position = position_dodge(width = .1)) + 
+  geom_hline(yintercept = 0.5, lty=2)+
+  facet_wrap(~ experiment) +
+  theme_few() + 
+  scale_colour_solarized()
+```
+
