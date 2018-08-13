@@ -137,30 +137,30 @@ nextButton[disabled] {
 
 .agent {
     position: absolute;
-    bottom: 350px;
+    bottom: 430px;
     left: 390px;
     width: 300px;
 }
 
 .point_agent_r {
     position: absolute;
-    bottom: 350px;
-    left: 390px;
+    bottom: 430px;
+    left: 450px;
     width: 300px;
 }
 
 
 .point_agent_l {
     position: absolute;
-    bottom: 350px;
-    left: 390px;
+    bottom: 430px;
+    left: 320px;
     width: 300px;
 }
 
 
 .look_agent_r {
     position: absolute;
-    bottom: 350px;
+    bottom: 430px;
     left: 390px;
     width: 300px;
 }
@@ -168,7 +168,7 @@ nextButton[disabled] {
 
 .look_agent_l {
     position: absolute;
-    bottom: 350px;
+    bottom: 430px;
     left: 390px;
     width: 300px;
 }
@@ -241,7 +241,7 @@ nextButton[disabled] {
 
 .fruit_r2 {
     position: absolute;
-    bottom: 335px;  
+    bottom: 320px;  
     left: 785px;
     width: 160px;
     z-index: 2
@@ -258,7 +258,7 @@ nextButton[disabled] {
 
 .fruit_l2 {
     position: absolute;
-    bottom: 335px;
+    bottom: 320px;
     left: 125px;
     width: 160px;
     z-index: 2

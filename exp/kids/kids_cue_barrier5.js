@@ -235,7 +235,7 @@ var trial = ["filler1",1,2,3,"filler2",4,5,6]
 //var friends = shuffle(["Mouse","Monkey","Bunny","Dog","Bear","Tiger","Cat","Sheep"]);
 
 
-var friends = ["robot","robot","robot","robot","robot","robot","robot","robot"];
+var friends = ["robot","robot1","robot2","robot3","robot5","robot4","robot7","robot6"];
 
 // randomization of agent order for test trials
 
@@ -452,6 +452,8 @@ checkInput: function() {
       
     // data collected  
       data = {
+        subid: subid,
+        subage: subage,
         experiment: "cue_robots_point",
         trial: trial[0],
         cue: cond[0],
