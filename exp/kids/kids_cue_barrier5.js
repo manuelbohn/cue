@@ -229,13 +229,13 @@ $("#button").click(function() {
 
 // Variables and randomization for the experiment
 
-var trial = ["filler1",1,2,3,"filler2",4,5,6]
+var trial = ["filler1","filler2",1,2,3,4,5,6]
 // agent order for training
 
 //var friends = shuffle(["Mouse","Monkey","Bunny","Dog","Bear","Tiger","Cat","Sheep"]);
 
 
-var friends = ["robot","robot1","robot2","robot3","robot5","robot4","robot7","robot6"];
+var friends = ["robot8","robot8","robot8","robot9","robot8","robot9","robot8","robot9"];
 
 // randomization of agent order for test trials
 
