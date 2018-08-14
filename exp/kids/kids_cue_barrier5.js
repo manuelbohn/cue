@@ -610,15 +610,15 @@ eat2: function(event) {
         
         setTimeout(function() {
         choiceAgent(agents[0],"look_l_c") 
-        }, 3000)   
+        }, 4000)   
             
         setTimeout(function() {
         choiceAgent(agents[0],"point_l_c") 
-        }, 4500)
+        }, 5500)
         
         setTimeout(function() {
         choiceAgent(agents[0],"look_l_c") 
-        }, 8000)
+        }, 9000)
         
         choiceLeftFruit("images/"+leftFruit[0]+".png");
                    
@@ -636,15 +636,15 @@ eat2: function(event) {
         
                 setTimeout(function() {
         choiceAgent(agents[0],"look_r_c") 
-        }, 3000)   
+        }, 4000)   
             
         setTimeout(function() {
         choiceAgent(agents[0],"point_r_c") 
-        }, 4500)
+        }, 5500)
         
         setTimeout(function() {
         choiceAgent(agents[0],"look_r_c") 
-        }, 8000)
+        }, 9000)
         
         
         
@@ -671,15 +671,15 @@ eat2: function(event) {
               
                       setTimeout(function() {
         choiceAgent(agents[0],"look_l_c") 
-        }, 3000)   
+        }, 4000)   
             
         setTimeout(function() {
         choiceAgent(agents[0],"point_l_c") 
-        }, 4500)
+        }, 5500)
         
         setTimeout(function() {
         choiceAgent(agents[0],"look_l_c") 
-        }, 8000)
+        }, 9000)
               
               
               if (experiment.targetPosition[0] == "upper"){
@@ -714,15 +714,15 @@ eat2: function(event) {
               
                            setTimeout(function() {
         choiceAgent(agents[0],"look_r_c") 
-        }, 3000)   
+        }, 4000)   
             
         setTimeout(function() {
         choiceAgent(agents[0],"point_r_c") 
-        }, 4500)
+        }, 5500)
         
         setTimeout(function() {
         choiceAgent(agents[0],"look_r_c") 
-        }, 8000)
+        }, 9000)
 
               if (experiment.targetPosition[0] == "upper"){
 
@@ -855,7 +855,7 @@ eat2: function(event) {
       
     // play hello sound and write name of agent
    if (experiment.trial[0] == "filler1") { 
-        pause("next",4000); 
+        pause("next",6000); 
         
        //sound.find(function (obj){return obj.id == agents[0]+"_hello.mp3"}).play()
     } else {
