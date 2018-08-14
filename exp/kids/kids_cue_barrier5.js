@@ -854,11 +854,14 @@ eat2: function(event) {
       
       
     // play hello sound and write name of agent
-   if (experiment.agentOrient[0][0] == "straight") { 
-        pause("next",1000); 
+   if (experiment.trial[0] == "filler1") { 
+        pause("next",4000); 
         
        //sound.find(function (obj){return obj.id == agents[0]+"_hello.mp3"}).play()
-    }; 
+    } else {
+        pause("next",1000); 
+        
+    }
      
     // display obejcts on table depending on training and test condition
       
@@ -868,8 +871,6 @@ eat2: function(event) {
 
     if (experiment.trial[0] == "filler1"){
         
-         
-        	pause("next",4000);
 				
 				
         setTimeout(function() {
