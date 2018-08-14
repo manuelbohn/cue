@@ -869,7 +869,7 @@ eat2: function(event) {
     if (experiment.trial[0] == "filler1"){
         
          
-        	
+        	pause("next",4000);
 				
 				
         setTimeout(function() {
