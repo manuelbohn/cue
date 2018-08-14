@@ -31,7 +31,16 @@ function showRightChoiceFriend(id) {
 	$("#"+id+"_r_c").show();
 }
 
-var preSounds = ["Frog_choice.mp3", "Mouse_choice.mp3", "Bear_choice.mp3", "Beaver_choice.mp3", "Monkey_choice.mp3", "Dog_choice.mp3", "Cat_choice.mp3", "Bunny_choice.mp3", "Tiger_choice.mp3", "Sheep_choice.mp3","Pig_choice.mp3","Pig_train.mp3","Elephant_train.mp3","Frog_hello.mp3", "Mouse_hello.mp3", "Bear_hello.mp3", "Monkey_hello.mp3", "Dog_hello.mp3", "Cat_hello.mp3", "Bunny_hello.mp3", "Tiger_hello.mp3", "Sheep_hello.mp3","Pig_hello.mp3","Elephant_hello.mp3", "Beaver_hello.mp3","end.mp3"];
+var preSounds = ["Frog_intro.mp3",
+                 "ticon_label.mp3", "ticon_touch.mp3",
+                 "oscot_label.mp3", "oscot_touch.mp3",
+                 "zoyar_label.mp3", "zoyar_touch.mp3",
+                 "kepel_label.mp3", "kepel_touch.mp3",
+                 "glipsa_label.mp3", "glipsa_touch.mp3",
+                 "toma_label.mp3", "toma_touch.mp3",
+                 "zubi_label.mp3", "zubi_touch.mp3",
+                 "wiso_label.mp3", "wiso_touch.mp3",
+                 "end.mp3"];
 //for critical trials and fillers
 var sound = new Array();
 for (i = 0; i < preSounds.length; i++) {
@@ -74,6 +83,10 @@ function hideAgent() {
 function choiceAgent(id,orient) {
   // Hide all slides
 	$(".agent").hide();
+    $(".point_agent_l").hide();
+    $(".point_agent_r").hide();
+    $(".look_agent_l").hide();
+    $(".look_agent_r").hide();
 	// Show just the agent we want to show
 	$("#"+id+"_"+orient).show();
 }
@@ -235,7 +248,7 @@ var trial = ["filler1","filler2",1,2,3,4,5,6]
 //var friends = shuffle(["Mouse","Monkey","Bunny","Dog","Bear","Tiger","Cat","Sheep"]);
 
 
-var friends = ["robot8","robot8","robot8","robot9","robot8","robot9","robot8","robot9"];
+var friends = ["robot7","robot4","robot2","robot3","robot8","robot1","robot6","robot"];
 
 // randomization of agent order for test trials
 
@@ -256,14 +269,17 @@ var testCond = shuffle([
 var cond = trainCond.concat(testCond);
 
 
-var targetPosition = shuffle(["upper","lower","upper","lower","upper","lower","upper","lower"])
-
+var trainTargetPosition = ["upper","lower"];
+var testTargetPosition = shuffle(["upper","lower","upper","lower","upper","lower"]);
+var targetPosition = trainTargetPosition.concat(testTargetPosition);
 
 var targetSwitch = shuffle(["switch","stay","switch","stay","switch","stay","switch","stay"])
 
 // objects on tables in training and test (fruits = toys)
 
-var fruits = ["t1","t3","t4","t5","t6","t7","t8","t9","t10", "t11","t12","t14","t15","t16","t17","t18"];
+
+
+var fruits = shuffle(["t1","t2","t3","t4","t5","t7","t8","t9","t10", "t11","t12","t14","t15","t16","t17","t18"]);
 // randomizing order and combiantion of test objects
 var rightFruit = fruits.sort(() => .5 - Math.random()).slice(0,8);
 var remainingFruits = $.grep(fruits, function(value) {
@@ -284,7 +300,7 @@ var agentOrient = [
     ["straight","down"]];
 
 // randomizing location of target object (i.e. single object)
-var word = shuffle( ["ticon","kepel", "glipsa","zubi","oscot","toma","zoyar","wiso"]);
+var word = shuffle(["ticon","kepel", "glipsa","zubi","oscot","toma","zoyar","wiso"]);
 
 var filler = ["neat","interesting","funny","cool","neat","interesting","funny","cool","neat","interesting"]
 
@@ -366,8 +382,9 @@ checkInput: function() {
         
    // } else {
        
-      //  sound.find(function (obj){return obj.id ==  agents[0]+"_choice.mp3"}).pause();
-      //  sound.find(function (obj){return obj.id == "end.mp3"}).play()
+      sound.find(function (obj){return obj.id ==  word[0]+"_touch.mp3"}).pause();
+       
+      sound.find(function (obj){return obj.id == "end.mp3"}).play()
 
   //  }
        
@@ -559,9 +576,13 @@ eat2: function(event) {
       $("#text").text("")
        $("#text2").text("")
     
-      setTimeout(function() {  
-          $("#text2").text("This is a robot with a "+experiment.word[0]+", how "+experiment.filler[0]+", a robot with a "+experiment.word[0]+". Can you touch the "+experiment.word[0]+"?")
-      }, 0)  
+      
+        sound.find(function (obj){return obj.id ==  word[0]+"_label.mp3"}).play();
+      
+      
+  setTimeout(function() {  
+      sound.find(function (obj){return obj.id ==  word[0]+"_touch.mp3"}).play();
+    }, 9000)  
       
       
      
@@ -587,6 +608,17 @@ eat2: function(event) {
         
         choiceAgent(agents[0],"point_l_c") 
         
+        setTimeout(function() {
+        choiceAgent(agents[0],"look_l_c") 
+        }, 3000)   
+            
+        setTimeout(function() {
+        choiceAgent(agents[0],"point_l_c") 
+        }, 4500)
+        
+        setTimeout(function() {
+        choiceAgent(agents[0],"look_l_c") 
+        }, 8000)
         
         choiceLeftFruit("images/"+leftFruit[0]+".png");
                    
@@ -600,6 +632,21 @@ eat2: function(event) {
     } else if (experiment.trial[0] == "filler2") {
         
         choiceAgent(agents[0],"point_r_c") 
+        
+        
+                setTimeout(function() {
+        choiceAgent(agents[0],"look_r_c") 
+        }, 3000)   
+            
+        setTimeout(function() {
+        choiceAgent(agents[0],"point_r_c") 
+        }, 4500)
+        
+        setTimeout(function() {
+        choiceAgent(agents[0],"look_r_c") 
+        }, 8000)
+        
+        
         
         
         choiceLeftFruit("images/"+leftFruit[0]+".png");
@@ -619,7 +666,20 @@ eat2: function(event) {
       
           if (experiment.inf[0] == "left") {
                 
-              choiceAgent(agents[0],"point_l_c")  
+              choiceAgent(agents[0],"point_l_c") 
+              
+              
+                      setTimeout(function() {
+        choiceAgent(agents[0],"look_l_c") 
+        }, 3000)   
+            
+        setTimeout(function() {
+        choiceAgent(agents[0],"point_l_c") 
+        }, 4500)
+        
+        setTimeout(function() {
+        choiceAgent(agents[0],"look_l_c") 
+        }, 8000)
               
               
               if (experiment.targetPosition[0] == "upper"){
@@ -650,6 +710,19 @@ eat2: function(event) {
               
               
               choiceAgent(agents[0],"point_r_c") 
+              
+              
+                           setTimeout(function() {
+        choiceAgent(agents[0],"look_r_c") 
+        }, 3000)   
+            
+        setTimeout(function() {
+        choiceAgent(agents[0],"point_r_c") 
+        }, 4500)
+        
+        setTimeout(function() {
+        choiceAgent(agents[0],"look_r_c") 
+        }, 8000)
 
               if (experiment.targetPosition[0] == "upper"){
 
@@ -794,6 +867,16 @@ eat2: function(event) {
       
 
     if (experiment.trial[0] == "filler1"){
+        
+         
+        	
+				
+				
+        setTimeout(function() {
+        sound.find(function (obj){return obj.id == agents[0]+"_intro.mp3"}).play()
+            
+        	}, 1000);
+        
         sourceLeftFruit("images/"+leftFruit[0]+".png");
         showLeftFruit(); 
         sourceLeftFruit2("images/empty.png");
