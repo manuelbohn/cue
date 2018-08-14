@@ -304,9 +304,9 @@ var word = shuffle(["ticon","kepel", "glipsa","zubi","oscot","toma","zoyar","wis
 
 var filler = ["neat","interesting","funny","cool","neat","interesting","funny","cool","neat","interesting"]
 
-var trainInf = ["left"];
+var trainInf = ["left","right"];
 
-var testInf = shuffle(["left","right","left","right","left","right","left","right","left","right"]);
+var testInf = shuffle(["left","right","left","right","left","right"]);
 var inf = trainInf.concat(testInf)
 
 var trainControl = ["no","no"];
@@ -471,7 +471,7 @@ checkInput: function() {
       data = {
         subid: subid,
         subage: subage,
-        experiment: "cue_robots_point",
+        experiment: "cue_robots_point_talk",
         trial: trial[0],
         cue: cond[0],
         control: control[0],
@@ -775,7 +775,7 @@ eat2: function(event) {
    
        //   $(".friend_r").bind("click", experiment.eat);
 
-      }, 000)   
+      }, 9000)   
   
 },
 

@@ -34,11 +34,11 @@ write.csv(inf.data, file="kids_cue_barrier_data.csv")
 
 ######## Pilots
 
-files <- dir("~/Work/MCC/git-mcc/kids_info_pilot/robots_point_2")
+files <- dir("~/Work/MCC/git-mcc/kids_info_pilot/robots_point_3_sounds")
 
 raw <- data.frame()
 for (f in files) {
-  jf <- paste("~/Work/MCC/git-mcc/kids_info_pilot/robots_point_2/",f,sep="")
+  jf <- paste("~/Work/MCC/git-mcc/kids_info_pilot/robots_point_3_sounds/",f,sep="")
   jd <- fromJSON(paste(readLines(jf), collapse=""))
   id <- data.frame(test_date= jf, 
                    data = jd$data$data
