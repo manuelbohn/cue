@@ -248,7 +248,7 @@ var trial = ["filler1","filler2",1,2,3,4,5,6]
 //var friends = shuffle(["Mouse","Monkey","Bunny","Dog","Bear","Tiger","Cat","Sheep"]);
 
 
-var friends = ["robot7","robot4","robot2","robot3","robot8","robot1","robot6","robot"];
+var friends = ["robot5","robot4","robot2","robot3","robot7","robot1","robot6","robot"];
 
 // randomization of agent order for test trials
 
@@ -569,7 +569,7 @@ eat2: function(event) {
 
       setTimeout(function() {
           sound.find(function (obj){return obj.id ==  word[0]+"_which.mp3"}).play();
-      }, 2000) 
+      }, 2500) 
 
      
     hideBarrierChoice();
@@ -802,7 +802,7 @@ if (experiment.targetSwitch[0] == "stay") {
         
               setTimeout(function() {
                   showAgent(agents[0],"look_l") 
-              }, 9000)
+              }, 8000)
              
           } else {
              
@@ -836,7 +836,7 @@ if (experiment.targetSwitch[0] == "stay") {
         
               setTimeout(function() {
                   showAgent(agents[0],"look_r") 
-              }, 9000)
+              }, 8000)
           };
           
       } else {
@@ -879,11 +879,16 @@ if (experiment.targetSwitch[0] == "stay") {
       
     // play hello sound and write name of agent
    if (experiment.trial[0] == "filler1") { 
-        pause("next",6000); 
+        pause("next",7000); 
         
        //sound.find(function (obj){return obj.id == agents[0]+"_hello.mp3"}).play()
     } else {
-        pause("next",1000); 
+        
+        if (experiment.agentOrient[0][0] == "straight") { 
+            pause("next",1000); 
+        } else {
+            pause("next",8000); 
+        }
         
     }
      
