@@ -47,7 +47,7 @@ for (f in files) {
 }
 
 # convert into short format, drop unnecessary columns, rename variables and sort by id
-inf.data= melt(setDT(raw), measure = patterns( "^data.subid","^data.subage","^data.experiment","^data.trial","^data.cue","^data.control","^data.agent","^data.leftFruit","^data.rightFruit","^data.targetPosition","^targetSwitch","^data.pick","^data.inf","^data.rt", "^data.correct"))
+inf.data= melt(setDT(raw), measure = patterns( "^data.subid","^data.subage","^data.experiment","^data.trial","^data.cue","^data.control","^data.agent","^data.leftFruit","^data.rightFruit","^data.targetPosition","^data.targetSwitch","^data.pick","^data.inf","^data.rt", "^data.correct"))
 names(inf.data) = c("test_date","alltrial","subid","age","condition","trial","cue","control","agent","leftObject","rightObject","targetPosition","targetSwitch","pick","target","rt","correct") 
 
 inf.data <- inf.data %>%
