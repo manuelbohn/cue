@@ -283,6 +283,26 @@ nextButton[disabled] {
 }
 
 
+.selector_l {
+    position: absolute;
+    bottom: 180px;
+    left: 0px;
+    width: 420px;
+    height: 500px;
+    z-index: 3
+}
+
+
+.selector_r {
+    position: absolute;
+    bottom: 180px;
+    left: 660px;
+    width: 420px;
+    height: 500px;
+    z-index: 3
+}
+
+
 /* ## Experiment-specific styles */
 /* This stuff will vary by experiment. */
 
