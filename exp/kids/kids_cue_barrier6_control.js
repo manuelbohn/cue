@@ -317,7 +317,7 @@ var testInf = shuffle(["left","right","left","right","left","right"]);
 var inf = trainInf.concat(testInf)
 
 var trainControl = ["no","no"];
-var testControl = shuffle(["no","no","no","no","no","no","no","no"]);
+var testControl = shuffle(["yes","yes","yes","yes","yes","yes","yes","yes"]);
 var control = trainControl.concat(testControl)
 
 var back = shuffle([1,2,3,1,2,3,1,2,3,1]);
@@ -489,17 +489,7 @@ checkInput: function() {
       }, 2500) 
 
      
-    hideBarrierChoice();
-      
-    if (experiment.control[0] == "yes"){
-        
-        if (experiment.inf[0] == "left"){
-            showBarrierRightChoice();
-        } else {
-            showBarrierLeftChoice();
-        };
-    };
-      
+          
       
       choiceRightFruit("images/empty.png") 
       choiceRightFruit2("images/empty.png") 

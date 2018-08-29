@@ -175,19 +175,21 @@ nextButton[disabled] {
 
 .barrier_l {
     position: absolute;
-    bottom: 350px;
-    left: 105px;
-    width: 300px;
-    z-index: -1
+    bottom: 120px;
+    left: 40px;
+    width: 380px;
+    height: 600px;
+    z-index: 1
 }
 
 
 .barrier_r {
     position: absolute;
-    bottom: 350px;
-    left: 630px;
-    width: 300px;
-    z-index: -1
+    bottom: 120px;
+    left: 660px;
+    width: 380px;
+    height:600px;
+    z-index: 1
 }
 
 
