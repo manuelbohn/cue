@@ -1,5 +1,5 @@
 // preload
-var preFruits = ["duck.png","car.png","bear.png","ball.png","t1.png", "t2.png", "t3.png", "t4.png", "t5.png", "t6.png", "t7.png", "t8.png", "t9.png", "t10.png", "t11.png", "t12.png", "t13.png", "t14.png", "t15.png", "t16.png", "t17.png", "t18.png","back1.jpg","back2.jpg","back3.jpg","empty.png"];
+var preFruits = ["duck.png","car.png","bear.png","ball.png","t1.png", "t2.png", "t3.png", "t4.png", "t5.png", "t6.png", "t7.png", "t8.png", "t9.png", "t10.png", "t11.png", "t12.png", "t13.png", "t14.png", "t15.png", "t16.png", "t17.png", "t18.png","back10.jpg","back4.jpg","back6.jpg","empty.png"];
 //for critical trials and fillers
 var images = new Array();
 for (i = 0; i < preFruits.length; i++) {
@@ -320,7 +320,7 @@ var trainControl = ["no","no"];
 var testControl = shuffle(["no","no","no","no","no","no","no","no"]);
 var control = trainControl.concat(testControl)
 
-var back = shuffle([1,2,3,1,2,3,1,2,3,1]);
+var back = shuffle([10,4,6,10,4,6,10,4,6,10]);
 
 // beginning of actual experiment
 
