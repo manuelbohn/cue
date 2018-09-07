@@ -237,16 +237,16 @@ nextButton[disabled] {
 
 .fruit_r {
     position: absolute;
-    bottom: 530px;  
-    left: 785px;
+    bottom: 480px;  
+    left: 805px;
     width: 160px;
     z-index: 2
 }
 
 .fruit_r2 {
     position: absolute;
-    bottom: 325px;  
-    left: 785px;
+    bottom: 300px;  
+    left: 805px;
     width: 160px;
     z-index: 2
 }
@@ -254,16 +254,16 @@ nextButton[disabled] {
 
 .fruit_l {
     position: absolute;
-    bottom: 530px;
-    left: 120;
+    bottom: 480px;
+    left: 95px;
     width: 160px;
     z-index: 2
 }
 
 .fruit_l2 {
     position: absolute;
-    bottom: 325px;
-    left: 120;
+    bottom: 300px;
+    left: 95px;
     width: 160px;
     z-index: 2
 }
@@ -290,8 +290,8 @@ nextButton[disabled] {
 .tree_r {
     position: absolute;
     bottom: 160px;
-    left: 680px;
-    width: 350px;
+    left: 730px;
+    width: 300px;
     z-index: 1
 }
 
@@ -299,7 +299,7 @@ nextButton[disabled] {
     position: absolute;
     bottom: 160px;
     left: 30px;
-    width: 350px;
+    width: 300px;
     z-index: 1
 }
 
@@ -308,8 +308,8 @@ nextButton[disabled] {
 .selector_l {
     position: absolute;
     bottom: 160px;
-    left: 30px;
-    width: 350px;
+    left: 25px;
+    width: 300px;
     z-index: 3
 }
 
@@ -317,8 +317,8 @@ nextButton[disabled] {
 .selector_r {
     position: absolute;
     bottom: 160px;
-    left: 680px;
-    width: 350px;
+    left: 725px;
+    width: 300px;
     z-index: 3
 }
 

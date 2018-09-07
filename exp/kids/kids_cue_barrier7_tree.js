@@ -890,11 +890,11 @@ if (experiment.targetSwitch[0] == "stay") {
                   showAgent(agents[0],"point_l")      
          
               $("#tree_l").animate({bottom: '180', queue:  false},250)
-              $("#fruit_l").animate({bottom: '550', queue:  true},250)
-              $("#fruit_l2").animate({bottom: '345', queue:  true},250)
+              $("#fruit_l").animate({bottom: '500', queue:  true},250)
+              $("#fruit_l2").animate({bottom: '320', queue:  true},250)
               $("#tree_l").animate({bottom: '160', queue:    true},250)
-              $("#fruit_l").animate({bottom: '530', queue:  true},250)
-               $("#fruit_l2").animate({bottom: '325', queue:  true},250)
+              $("#fruit_l").animate({bottom: '480', queue:  true},250)
+               $("#fruit_l2").animate({bottom: '300', queue:  true},250)
             
               
                   
@@ -905,11 +905,11 @@ if (experiment.targetSwitch[0] == "stay") {
               setTimeout(function() {
                   showAgent(agents[0],"point_l")
                 $("#tree_l").animate({bottom: '180', queue:  false},250)
-                  $("#fruit_l").animate({bottom: '550', queue:  false},250)
-                  $("#fruit_l2").animate({bottom: '345', queue:  false},250)
+                  $("#fruit_l").animate({bottom: '500', queue:  false},250)
+                  $("#fruit_l2").animate({bottom: '320', queue:  false},250)
                   $("#tree_l").animate({bottom: '160', queue:    true},250)
-                   $("#fruit_l").animate({bottom: '530', queue:  true},250)
-                   $("#fruit_l2").animate({bottom: '325', queue:  true},250)
+                   $("#fruit_l").animate({bottom: '480', queue:  true},250)
+                   $("#fruit_l2").animate({bottom: '300', queue:  true},250)
               }, 5500)
         
               setTimeout(function() {
@@ -922,12 +922,12 @@ if (experiment.targetSwitch[0] == "stay") {
               
          
               $("#tree_r").animate({bottom: '180', queue:  false},250)
-              $("#fruit_r").animate({bottom: '550', queue:  false},250)
-              $("#fruit_r2").animate({bottom: '345', queue:  false},250)
+              $("#fruit_r").animate({bottom: '500', queue:  false},250)
+              $("#fruit_r2").animate({bottom: '320', queue:  false},250)
               
               $("#tree_r").animate({bottom: '160', queue:    true},250)
-              $("#fruit_r").animate({bottom: '530', queue:    true},250)
-              $("#fruit_r2").animate({bottom: '325', queue:    true},250)
+              $("#fruit_r").animate({bottom: '480', queue:    true},250)
+              $("#fruit_r2").animate({bottom: '300', queue:    true},250)
               
             
                   
@@ -939,11 +939,11 @@ if (experiment.targetSwitch[0] == "stay") {
               setTimeout(function() {
                   showAgent(agents[0],"point_r") 
                   $("#tree_r").animate({bottom: '180', queue:  false},250)
-                  $("#fruit_r").animate({bottom: '550', queue:  false},250)
-                  $("#fruit_r2").animate({bottom: '345', queue:  false},250)
+                  $("#fruit_r").animate({bottom: '500', queue:  false},250)
+                  $("#fruit_r2").animate({bottom: '320', queue:  false},250)
                   $("#tree_r").animate({bottom: '160', queue:    false},250)
-                  $("#fruit_r").animate({bottom: '530', queue:    true},250)
-                  $("#fruit_r2").animate({bottom: '325', queue:    true},250)
+                  $("#fruit_r").animate({bottom: '480', queue:    true},250)
+                  $("#fruit_r2").animate({bottom: '300', queue:    true},250)
               }, 5500)
         
               setTimeout(function() {
