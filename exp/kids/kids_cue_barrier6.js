@@ -670,7 +670,7 @@ if (experiment.targetSwitch[0] == "stay") {
       data = {
         subid: subid,
         subage: subage,
-        experiment: "cue_robots_point_talk_map",
+        experiment: "cue_robots_test",
         trial: trial[0],
         cue: cond[0],
         control: control[0],
