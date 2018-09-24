@@ -367,6 +367,9 @@ checkInput: function() {
   end: function() {
     // Show the finish slide.
     showSlide("finished");
+      
+      document.getElementById("maus").play() 
+      
     setTimeout(function() { turk.submit(experiment) }, 500);
   },
     
