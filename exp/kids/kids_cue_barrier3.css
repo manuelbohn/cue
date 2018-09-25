@@ -27,7 +27,7 @@ input, select, button {font-family: Georgia, serif; font-size: 14px;}
 
 
 .background {
-	width: 1024px;
+	width: 1044px;
 	height: 660px;
     opacity: 0.3;
     z-index: -5
@@ -288,8 +288,8 @@ nextButton[disabled] {
 .selector_l {
     position: absolute;
     bottom: 180px;
-    left: 0px;
-    width: 420px;
+    left: 30px;
+    width: 355px;
     height: 500px;
     z-index: 3
 }
@@ -298,8 +298,8 @@ nextButton[disabled] {
 .selector_r {
     position: absolute;
     bottom: 180px;
-    left: 660px;
-    width: 420px;
+    left: 685px;
+    width: 355px;
     height: 500px;
     z-index: 3
 }

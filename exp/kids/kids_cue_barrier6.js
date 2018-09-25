@@ -750,7 +750,7 @@ if (experiment.targetSwitch[0] == "stay") {
               }, 1500)
                        });
 
-      }, 3000)  
+      }, 5000)  
   
 },
 

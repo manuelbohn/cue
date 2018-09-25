@@ -10,20 +10,21 @@ library(tidyverse)
 library(knitr)
 library(langcog)
 library(ggthemes)
-
+library(jsonlite)
 
 ## importing data
-d <- read_csv(file="kids_cue_barrier_data.csv") 
+files <- dir("~/Work/CueStrength/raw_data_kids/round2/")
 
-d%>%
-  group_by(age)%>%
-  summarise(n = length(unique(test_date)))
+raw_data <- data_frame()
+for (f in files) {
+  jf <- paste("~/Work/CueStrength/raw_data_kids/round2/",f,sep="")
+  jd <- jsonlite::fromJSON(paste(readLines(jf), collapse=""))
+  id <- as_data_frame(jd$data$data)
+  raw_data <- bind_rows(raw_data, id)
+}
 
-
-d%>%
-  group_by(trial_type, control,test_date)%>%
-  summarise(n = length(trial),
-            mean = mean(correct))
+d <- raw_data %>%
+  mutate(trial_type = ifelse(grepl("filler",trial),"filler","test"))
 
 
 
@@ -34,7 +35,7 @@ d%>%
 
 ms <- d %>%
   filter(trial_type == "test") %>%
-  group_by(control, test_date) %>%
+  group_by(control, subid) %>%
   summarise(correct = mean(correct)) 
 
 ms2 <- ms %>%
@@ -61,7 +62,7 @@ ggplot() +
 
 ms <- d %>%
   filter(trial_type == "test") %>%
-  group_by(control,age, test_date) %>%
+  group_by(control,subage, subid) %>%
   summarise(correct = mean(correct)) 
 
 ms2 <- ms %>%
@@ -71,7 +72,7 @@ ms2 <- ms %>%
 ggplot() +
   geom_jitter(data = ms, aes(x = control, y = correct, col = control, alpha = .5), width = .3,height = .015)+
   geom_pointrange(data = ms2,aes(x = control, y = mean, col = control,ymin = ci_lower, ymax = ci_upper), size = 1)+ 
-  facet_wrap(~ age) +
+  facet_wrap(~ subage) +
   geom_hline(yintercept = 0.5, lty=2)+
   labs(x="",y="Proportion Expected Choice")+
   theme_few(base_size = 12) + 
@@ -104,17 +105,6 @@ bm <- brm(correct ~ control +
 summary(bm)
 ```
 
-
-Sanity checks.
-```{r training performance}
-## performance in training and test
-d %>%
-  group_by(trial_type,experiment) %>%
-  summarise(n = length(unique(id)), 
-            correct = mean(correct)) %>%
-  knitr::kable(digits = 3)
-
-```
 
 
 
