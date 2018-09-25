@@ -891,9 +891,9 @@ if (experiment.targetSwitch[0] == "stay") {
               
                   showAgent(agents[0],"point_l")      
          
-              $("#"+friends[0]+"_l").animate({bottom: '180', queue:  false},250)
-              $("#fruit_l").animate({bottom: '550', queue:  true},250)
-              $("#fruit_l2").animate({bottom: '345', queue:  true},250)
+              $("#"+friends[0]+"_l").animate({bottom: '200', queue:  false},250)
+              $("#fruit_l").animate({bottom: '570', queue:  true},250)
+              $("#fruit_l2").animate({bottom: '365', queue:  true},250)
               $("#"+friends[0]+"_l").animate({bottom: '160', queue:    true},250)
               $("#fruit_l").animate({bottom: '530', queue:  true},250)
                $("#fruit_l2").animate({bottom: '325', queue:  true},250)
@@ -906,9 +906,9 @@ if (experiment.targetSwitch[0] == "stay") {
             
               setTimeout(function() {
                   showAgent(agents[0],"point_l")
-                $("#"+friends[0]+"_l").animate({bottom: '180', queue:  false},250)
-                  $("#fruit_l").animate({bottom: '550', queue:  false},250)
-                  $("#fruit_l2").animate({bottom: '345', queue:  false},250)
+                $("#"+friends[0]+"_l").animate({bottom: '200', queue:  false},250)
+                  $("#fruit_l").animate({bottom: '570', queue:  false},250)
+                  $("#fruit_l2").animate({bottom: '365', queue:  false},250)
                   $("#"+friends[0]+"_l").animate({bottom: '160', queue:    true},250)
                    $("#fruit_l").animate({bottom: '530', queue:  true},250)
                    $("#fruit_l2").animate({bottom: '325', queue:  true},250)
@@ -923,9 +923,9 @@ if (experiment.targetSwitch[0] == "stay") {
               showAgent(agents[0],"point_r")
               
          
-              $("#"+friends[0]+"_r").animate({bottom: '180', queue:  false},250)
-              $("#fruit_r").animate({bottom: '550', queue:  false},250)
-              $("#fruit_r2").animate({bottom: '345', queue:  false},250)
+              $("#"+friends[0]+"_r").animate({bottom: '200', queue:  false},250)
+              $("#fruit_r").animate({bottom: '570', queue:  false},250)
+              $("#fruit_r2").animate({bottom: '365', queue:  false},250)
               
               $("#"+friends[0]+"_r").animate({bottom: '160', queue:    true},250)
               $("#fruit_r").animate({bottom: '530', queue:    true},250)
@@ -940,9 +940,9 @@ if (experiment.targetSwitch[0] == "stay") {
             
               setTimeout(function() {
                   showAgent(agents[0],"point_r") 
-                  $("#"+friends[0]+"_r").animate({bottom: '180', queue:  false},250)
-                  $("#fruit_r").animate({bottom: '550', queue:  false},250)
-                  $("#fruit_r2").animate({bottom: '345', queue:  false},250)
+                  $("#"+friends[0]+"_r").animate({bottom: '200', queue:  false},250)
+                  $("#fruit_r").animate({bottom: '570', queue:  false},250)
+                  $("#fruit_r2").animate({bottom: '365', queue:  false},250)
                   $("#"+friends[0]+"_r").animate({bottom: '160', queue:    false},250)
                   $("#fruit_r").animate({bottom: '530', queue:    true},250)
                   $("#fruit_r2").animate({bottom: '325', queue:    true},250)
