@@ -969,7 +969,7 @@ if (experiment.targetSwitch[0] == "stay") {
               experiment.choice() }, 1500);
           return;
           
-      }    
+      }   
       
       
       
