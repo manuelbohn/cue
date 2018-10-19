@@ -309,7 +309,6 @@ var agentOrient = [
 // randomizing location of target object (i.e. single object)
 var word = shuffle(["ticon","kepel", "glipsa","zubi","oscot","toma","zoyar","wiso"]);
 
-var filler = ["neat","interesting","funny","cool","neat","interesting","funny","cool","neat","interesting"]
 
 var trainInf = ["left","right"];
 
@@ -340,7 +339,6 @@ var experiment = {
   agentOrient: agentOrient,
   rightFruit: rightFruit,
   leftFruit: leftFruit,
-    filler: filler, 
   inf: inf,
   data: [],
   targetPosition: targetPosition,
@@ -358,8 +356,13 @@ checkInput: function() {
 			$("#checkMessage").html('<font color="red">You must input a subject age</font>');
 			return;
 		}
+         if (document.getElementById("subjectOrder").value.length < 1) {
+			$("#checkMessage").html('<font color="red">You must input an order number</font>');
+			return;
+		}
 		experiment.subid = document.getElementById("subjectID").value
         experiment.subage = document.getElementById("subjectAge").value
+        experiment.suborder = document.getElementById("subjectOrder").value
         experiment.trainingDot()
       }, 
     
@@ -446,7 +449,6 @@ checkInput: function() {
     experiment.targetPosition.shift();
      experiment.targetSwitch.shift();
      experiment.friends.shift();
-     experiment.filler.shift();
      experiment.word.shift();
      experiment.trial.shift();
    
@@ -664,12 +666,14 @@ if (experiment.targetSwitch[0] == "stay") {
 
               var subid = experiment.subid; 
               var subage = experiment.subage; 
+              var suborder =  experiment.suborder;
        
       
     // data collected  
       data = {
         subid: subid,
         subage: subage,
+          suborder: suborder,
         experiment: "cue_robots_test",
         trial: trial[0],
         cue: cond[0],
@@ -722,13 +726,15 @@ if (experiment.targetSwitch[0] == "stay") {
 
               var subid = experiment.subid; 
               var subage = experiment.subage; 
+              var suborder =  experiment.suborder;
        
       
     // data collected  
       data = {
         subid: subid,
         subage: subage,
-        experiment: "cue_robots_point_talk_map",
+        suborder: suborder,
+        experiment: "cue_robots_test",
         trial: trial[0],
         cue: cond[0],
         control: control[0],
