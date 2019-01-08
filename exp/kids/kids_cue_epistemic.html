@@ -87,10 +87,7 @@
                           Look, there is also a wall. Some of the robots are behind a wall. Frog cannot see through the wall.    
                         </p>
                     
-                    <p class="block-text">
-                         Let's meet Frog and the robots. 
-                        </p>
-                      
+                                 
             
                 
 					<tr align="center" height="300px">
@@ -125,6 +122,58 @@
 					</tr>
 				</tbody>
 			</table>
+           <startButton type="button" onClick="this.blur(); showSlide('training2')">Next</startButton>
+		</div>
+	</div>
+
+	<div class="slide" id="training2">
+		<div align="center" width="500px">
+            <p id='logo-text'>Instructions</p>
+			<table style="width:100%">
+				<tbody>
+                      <p class="block-text">
+                          Do you remember what I told you about the wall? Let's see: Can Frog see this robot (point to left)? How about this one (point to right)?  
+                        </p>
+                    
+                
+					<tr align="center" height="300px">
+						<td>
+                        
+                        </td>
+						<td>
+                            
+                            <img src="images/Frog_straight.png"
+                            style="position:absolute; TOP:150px; LEFT:455px; WIDTH:150px; z-index:1">
+                           
+                        </td>
+						<td>
+                   
+                        </td>
+					
+					<tr align="center" height="50px">
+						<td>
+                       
+                            <img src="images/robot1.png" style="position:absolute; TOP:220px; LEFT:320px; WIDTH:143px">
+                            <img src="images/barrier_l.png" style="position:absolute; TOP:170px; LEFT:320px; WIDTH:143px; HEIGHT: 200; Z-INDEx: -1">
+                        </td>
+						<td>
+                       
+                        </td>
+						<td>
+                        
+                            <img src="images/robot1.png" style="position:absolute; TOP:220px; LEFT:590px; WIDTH:143px">
+                            
+                            
+                        </td>
+					</tr>
+				</tbody>
+			</table>
+            
+               <p class="block-text">
+                         Awesome! Let's meet Frog and the robots. 
+                        </p>
+            
+            
            <startButton type="button" onClick="this.blur(); experiment.next()">Start</startButton>
 		</div>
 	</div>
