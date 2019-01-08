@@ -13,11 +13,11 @@ library(ggthemes)
 library(jsonlite)
 
 ## importing data
-files <- dir("~/Work/CueStrength/raw_data_kids/round2/")
+files <- dir("~/Work/CueStrength/raw_data_kids/barrier/")
 
 raw_data <- data_frame()
 for (f in files) {
-  jf <- paste("~/Work/CueStrength/raw_data_kids/round2/",f,sep="")
+  jf <- paste("~/Work/CueStrength/raw_data_kids/barrier/",f,sep="")
   jd <- jsonlite::fromJSON(paste(readLines(jf), collapse=""))
   id <- as_data_frame(jd$data$data)
   raw_data <- bind_rows(raw_data, id)
