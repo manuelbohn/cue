@@ -30,32 +30,6 @@ d <- raw_data %>%
 
 ```
 
-```{r plot overall}
-
-
-ms <- d %>%
-  filter(trial_type == "test") %>%
-  group_by(control, subid) %>%
-  summarise(correct = mean(correct)) 
-
-ms2 <- ms %>%
-  multi_boot_standard(col = "correct")
-
-
-ggplot() +
-  geom_jitter(data = ms, aes(x = control, y = correct, col = control, alpha = .5), width = .3,height = .015)+
-  geom_pointrange(data = ms2,aes(x = control, y = mean, col = control,ymin = ci_lower, ymax = ci_upper), size = 1)+ 
-  geom_hline(yintercept = 0.5, lty=2)+
-  labs(x="",y="Proportion Expected Choice")+
-  theme_few(base_size = 12) + 
-  ylim(-0.05,1.05)+
-  guides(alpha = F)+
-  theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
-  scale_color_solarized(name="Condition",
-                     breaks=c("false", "true"),
-                     labels=c("Test", "Control - Barrier"))
-```
-
 
 ```{r plot by age}
 
@@ -80,8 +54,35 @@ ggplot() +
   guides(alpha = F)+
   theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())+
   scale_color_solarized(name="Condition",
-                     breaks=c("false", "true"),
+                     breaks=c("no", "yes"),
                      labels=c("Test", "Control - Barrier"))
+```
+
+```{r plot overall}
+
+
+ms <- d %>%
+  filter(trial_type == "test") %>%
+  group_by(control, subid) %>%
+  summarise(correct = mean(correct)) 
+
+ms2 <- ms %>%
+  multi_boot_standard(col = "correct")
+
+
+ggplot() +
+  geom_jitter(data = ms, aes(x = control, y = correct, col = control, alpha = .5), width = .3,height = .015)+
+  geom_pointrange(data = ms2,aes(x = control, y = mean, col = control,ymin = ci_lower, ymax = ci_upper), size = 1)+ 
+  geom_hline(yintercept = 0.5, lty=2)+
+  labs(x="",y="Proportion Expected Choice")+
+  theme_few(base_size = 12) + 
+  ylim(-0.05,1.05)+
+  guides(alpha = F)+
+    scale_color_solarized(name="Condition",
+                     breaks=c("no", "yes"),
+                     labels=c("Test", "Control - Barrier"))+
+  theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())
+
 ```
 
 ```{r model}
@@ -96,8 +97,8 @@ data_inf <- d %>%
   mutate(control  = as.factor(control))
 
 # registered  model
-bm <- brm(correct ~ control +
-              (control |subid) + (control |agent), 
+bm <- brm(correct ~ age*control +
+              (control |subid) + (control |word), 
           data = data_inf, family = bernoulli(),
           control = list(adapt_delta = 0.90),
           iter = 5000)

@@ -275,7 +275,7 @@ var targetPosition = trainTargetPosition.concat(testTargetPosition);
 
 var trainTargetSwitch = shuffle(["stay","switch"]);
 
-var testTargetSwitch = shuffle(["switch","stay","switch","stay","switch","stay","switch","stay"])
+var testTargetSwitch = shuffle(["switch","stay","switch","stay","switch","stay"])
 var targetSwitch = trainTargetSwitch.concat(testTargetSwitch)
 
 
@@ -315,7 +315,7 @@ var testInf = shuffle(["left","right","left","right","left","right"]);
 var inf = trainInf.concat(testInf)
 
 var trainControl = ["no","no"];
-var testControl = shuffle(["no","no","no","no","yes","yes","yes","yes"]);
+var testControl = shuffle(["no","no","no","yes","yes","yes"]);
 var control = trainControl.concat(testControl)
 
 var back = shuffle([1,2,3,1,2,3,1,2,3,1]);
@@ -665,9 +665,8 @@ if (experiment.targetSwitch[0] == "stay") {
 //        suborder: suborder,
         experiment: "cue_epistemic",
         trial: trial[0],
-        cue: cond[0],
+        word: word[0],
         control: control[0],
-        agent: agents[0],
         leftFruit: leftFruit[0],
         rightFruit: rightFruit[0],
         targetPosition: targetPosition[0],
@@ -725,9 +724,8 @@ if (experiment.targetSwitch[0] == "stay") {
 //        suborder: suborder, 
         experiment: "cue_epistemic",
         trial: trial[0],
-        cue: cond[0],
+        word: word[0],
         control: control[0],
-        agent: agents[0],
         leftFruit: leftFruit[0],
         rightFruit: rightFruit[0],
         targetPosition: targetPosition[0],
