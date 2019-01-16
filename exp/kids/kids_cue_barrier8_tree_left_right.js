@@ -668,7 +668,7 @@ if (experiment.targetSwitch[0] == "stay") {
       data = {
         subid: subid,
         subage: subage,
-        experiment: "mcc_kids_inf_2",
+        experiment: "mcc_kids_inf_2_2",
         trial: trial[0],
         cue: cond[0],
         control: control[0],
@@ -726,7 +726,7 @@ if (experiment.targetSwitch[0] == "stay") {
       data = {
         subid: subid,
         subage: subage,
-        experiment: "mcc_kids_inf_2",
+        experiment: "mcc_kids_inf_2_2",
         trial: trial[0],
         cue: cond[0],
         control: control[0],
